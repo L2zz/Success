@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             /* Action after click main category */
             String str = (String) v.getTag();
             Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+            setSubCategory();
         }
     };
     private View.OnClickListener onClickSubCategory = new View.OnClickListener() {
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         contentList = findViewById(R.id.main_content_list);
 
         setCategory();
-        setSubCategory();
     }
 
     public void setCategory() {
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setSubCategory() {
+        categorySubListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categorySubListView.setLayoutManager(layoutManager);
