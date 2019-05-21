@@ -4,6 +4,16 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Dimens for common -->
+    <dimen name="edit_padding">3dp</dimen>
+    <dimen name="top_bar_size">60dp</dimen>
+    <dimen name="elevation">3dp</dimen>
+
+    <!-- Dimens for text size -->
+    <dimen name="title_size">24sp</dimen>
+    <dimen name="normal_txt_size">18sp</dimen>
+    <dimen name="small_txt_size">14sp</dimen>
+
     <!-- Dimens for LoginActivity -->
     <dimen name="edit_padding_top">5dp</dimen>
     <dimen name="edit_padding_bottom">15dp</dimen>
@@ -11,10 +21,9 @@
     <dimen name="logo_size">160dp</dimen>
     <dimen name="logo_container_size">220dp</dimen>
 
-    <!-- Dimens for common -->
-    <dimen name="edit_padding">3dp</dimen>
-    <dimen name="top_bar_size">60dp</dimen>
-    <dimen name="elevation">3dp</dimen>
+    <!-- Dimens for SignUpActivity -->
+    <dimen name="sign_up_vertical_space">40dp</dimen>
+    <dimen name="sign_up_horizontal_space">20dp</dimen>
 
     <!-- Dimens for MainActivity -->
     <dimen name="search_bar_size">30dp</dimen>
