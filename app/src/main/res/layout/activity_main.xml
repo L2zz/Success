@@ -16,7 +16,7 @@
             android:id="@+id/main_top_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/top_bar_size"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorSample"
             android:orientation="horizontal"
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
