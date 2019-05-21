@@ -26,4 +26,13 @@
     <string name="main_drawer_title">알림 사이트 선택</string>
     <string name="main_drawer_cancel">취소</string>
     <string name="main_drawer_confirm">확인</string>
+
+    <!--String related to StashActivity-->
+    <string name="backarrow">←</string>
+    <string name="stash">보관함</string>
+    <string name="edit">편집하기</string>
+    <string name="delete">삭제하기</string>
+    <string name="SKKU">SKKU home</string>
+    <string name="College">College home</string>
+    <string name="JOB">Job</string>
 </resources>
