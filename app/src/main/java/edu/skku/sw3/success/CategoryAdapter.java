@@ -13,12 +13,11 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private ArrayList<String> categoryList;
     private Context context;
-    private View.OnClickListener onClickCategory;
+    private Integer lastSelectedIndex;
 
-    public CategoryAdapter(Context context, ArrayList<String> categoryList, View.OnClickListener onClickCategory) {
+    public CategoryAdapter(Context context, ArrayList<String> categoryList) {
         this.categoryList = categoryList;
         this.context = context;
-        this.onClickCategory = onClickCategory;
     }
 
     @NonNull
@@ -36,7 +35,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         viewHolder.category.setText(categoryTitle);
         viewHolder.category.setTag(categoryTitle);
-        viewHolder.category.setOnClickListener(onClickCategory);
+        if (lastSelectedIndex != null) {
+            viewHolder.category.setSelected(i == lastSelectedIndex);
+        }
     }
 
     @Override
@@ -44,13 +45,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categoryList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView category;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             category = itemView.findViewById(R.id.category_title);
+        }
+
+        @Override
+        public void onClick(View v) {
+            v.setSelected(true);
+            lastSelectedIndex = getAdapterPosition();
+            notifyDataSetChanged();
         }
     }
 }

@@ -57,24 +57,6 @@ public class StashActivity extends AppCompatActivity {
 
     private RecyclerView categoryListView, categorySubListView;
     private CategoryAdapter categoryAdapter, categorySubAdapter;
-    // 사이트 지정후 내부 항목을 보여줍니다.
-    private View.OnClickListener onClickCategory = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            /* Action after click main category */
-            String str = (String) v.getTag();
-            Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-            setSubCategory();
-        }
-    };
-    private View.OnClickListener onClickSubCategory = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // 사이트 내부 공지사항 종류를 선택했을 때 행동
-            String str = (String) v.getTag();
-            Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,7 +319,7 @@ public class StashActivity extends AppCompatActivity {
         categoryList.add("학생지원팀");
         categoryList.add("전자전기");
 
-        categoryAdapter = new CategoryAdapter(this, categoryList, onClickCategory);
+        categoryAdapter = new CategoryAdapter(this, categoryList);
         categoryListView.setAdapter(categoryAdapter);
     }
 
@@ -351,7 +333,7 @@ public class StashActivity extends AppCompatActivity {
         ArrayList<String> categorySubList = new ArrayList<>();
         categorySubList.add("취업");
         categorySubList.add("공지사항");
-        categorySubAdapter = new CategoryAdapter(this, categorySubList, onClickSubCategory);
+        categorySubAdapter = new CategoryAdapter(this, categorySubList);
         categorySubListView.setAdapter(categorySubAdapter);
     }
 }
