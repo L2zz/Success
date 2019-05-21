@@ -4,8 +4,8 @@
     <!-- 출처: https://wimir-dev.tistory.com/ [[위미르 개발팀] Android, iOS , Web 제작] -->
     <item
         android:bottom="0dp"
-        android:left="0.5dp"
-        android:right="0.5dp"
+        android:left="-1dp"
+        android:right="-1dp"
         android:top="-1dp">
         <shape android:shape="rectangle" >
             <stroke
