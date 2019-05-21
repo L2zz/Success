@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Success</string>
+    <string name="main_drawer_title">알림 사이트 선택</string>
+    <string name="main_drawer_cancel">취소</string>
+    <string name="main_drawer_confirm">확인</string>
 </resources>

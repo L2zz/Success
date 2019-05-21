@@ -1,122 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/main_top_bar"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_bar_size"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/main_search_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:gravity="center"
+            android:id="@+id/main_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_bar_size"
+            android:background="@color/colorPrimaryDark"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/main_search_edit"
+            <LinearLayout
+                android:id="@+id/main_search_container"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/search_bar_size"
-                android:layout_weight="8"
-                android:background="@drawable/box_round"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:paddingLeft="@dimen/edit_padding"
-                android:paddingRight="@dimen/edit_padding"
-                android:textColor="@android:color/black"
-                android:textColorLink="@android:color/transparent"
-                android:textCursorDrawable="@android:color/darker_gray" />
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+
+                <EditText
+                    android:id="@+id/main_search_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/search_bar_size"
+                    android:layout_weight="8"
+                    android:background="@drawable/box_round"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="@dimen/edit_padding"
+                    android:paddingRight="@dimen/edit_padding"
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/transparent"
+                    android:textCursorDrawable="@android:color/darker_gray" />
+
+                <ImageButton
+                    android:id="@+id/main_search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/search_white" />
+            </LinearLayout>
 
             <ImageButton
-                android:id="@+id/main_search_btn"
+                android:id="@+id/main_store_btn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/search_white" />
+                app:srcCompat="@drawable/store_btn_white" />
+
+            <ImageButton
+                android:id="@+id/main_set_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/set_btn_white" />
+
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/main_store_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/store_btn_white" />
+        <LinearLayout
+            android:id="@+id/main_category_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/category_bar_height"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_top_bar">
 
-        <ImageButton
-            android:id="@+id/main_set_btn"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_category"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/box_angular"
+                android:scrollbars="none" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_category_sub"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/box_angular"
+                android:scrollbars="none"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/main_content_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_category_container" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/main_drawer"
+        android:layout_width="@dimen/drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@android:color/background_light">
+
+        <TextView
+            android:id="@+id/main_drawer_title"
             android:layout_width="0dp"
+            android:layout_height="@dimen/drawer_title_height"
+            android:gravity="center"
+            android:text="@string/main_drawer_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/main_drawer_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/main_drawer_btn_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_drawer_title" />
+
+        <LinearLayout
+            android:id="@+id/main_drawer_btn_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/set_btn_white" />
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/main_drawer_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="@string/main_drawer_cancel"
+                android:textColor="@color/colorPrimaryDark" />
 
-    <LinearLayout
-        android:id="@+id/main_category_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/category_bar_height"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_top_bar">
+            <Button
+                android:id="@+id/main_drawer_confirm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="@string/main_drawer_confirm"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_category"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/box_angular"
-            android:scrollbars="none" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_category_sub"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/box_angular"
-            android:scrollbars="none"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/main_content_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_category_container" />
-
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.DrawerLayout>

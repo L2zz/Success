@@ -1,10 +1,15 @@
 package edu.skku.sw3.success;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -17,7 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEdit;
     private ImageButton searchBtn, storeBtn, setBtn;
     private RecyclerView categoryListView, categorySubListView;
-    private ListView contentList;
+    private ListView mainContent;
+
+    private DrawerLayout drawer;
+    private ListView drawerContent;
+    private Button drawerCancelBtn, drawerConfirmBtn;
 
     private MainCategoryAdapter categoryAdapter, categorySubAdapter;
     private View.OnClickListener onClickCategory = new View.OnClickListener() {
@@ -49,12 +58,17 @@ public class MainActivity extends AppCompatActivity {
         setBtn = findViewById(R.id.main_set_btn);
         categoryListView = findViewById(R.id.main_category);
         categorySubListView = findViewById(R.id.main_category_sub);
-        contentList = findViewById(R.id.main_content_list);
+        mainContent = findViewById(R.id.main_content_list);
+        drawer = findViewById(R.id.main_container);
+        drawerContent = findViewById(R.id.main_drawer_content);
+        drawerCancelBtn = findViewById(R.id.main_drawer_cancel_btn);
+        drawerConfirmBtn = findViewById(R.id.main_drawer_confirm_btn);
 
         setCategory();
+        setDrawer();
     }
 
-    public void setCategory() {
+    private void setCategory() {
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoryListView.setLayoutManager(layoutManager);
@@ -72,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         categoryListView.setAdapter(categoryAdapter);
     }
 
-    public void setSubCategory() {
+    private void setSubCategory() {
         categorySubListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -83,5 +97,33 @@ public class MainActivity extends AppCompatActivity {
         categorySubList.add("공지사항");
         categorySubAdapter = new MainCategoryAdapter(this, categorySubList, onClickSubCategory);
         categorySubListView.setAdapter(categorySubAdapter);
+    }
+
+    private void setDrawer() {
+        final String[] items = {"소프트웨어", "학사공지", "전자전기", "정보통신"};
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        drawerContent.setAdapter(adapter);
+
+        drawerContent.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), new Integer(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        drawerCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(Gravity.RIGHT);
+            }
+        });
+
+        drawerConfirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* Set target sites */
+                drawer.closeDrawer(Gravity.RIGHT);
+            }
+        });
     }
 }
