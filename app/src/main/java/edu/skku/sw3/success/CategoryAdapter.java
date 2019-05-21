@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private ArrayList<String> categoryList;
     private Context context;
     private View.OnClickListener onClickCategory;
 
-    public MainCategoryAdapter(Context context, ArrayList<String> categoryList, View.OnClickListener onClickCategory) {
+    public CategoryAdapter(Context context, ArrayList<String> categoryList, View.OnClickListener onClickCategory) {
         this.categoryList = categoryList;
         this.context = context;
         this.onClickCategory = onClickCategory;
@@ -23,7 +23,7 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
 
     @NonNull
     @Override
-    public MainCategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_category, viewGroup, false);
 
@@ -31,7 +31,7 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainCategoryAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder viewHolder, int i) {
         String categoryTitle = categoryList.get(i);
 
         viewHolder.category.setText(categoryTitle);

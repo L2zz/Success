@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView drawerContent;
     private Button drawerCancelBtn, drawerConfirmBtn;
 
-    private MainCategoryAdapter categoryAdapter, categorySubAdapter;
+    private CategoryAdapter categoryAdapter, categorySubAdapter;
     private View.OnClickListener onClickCategory = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         categoryList.add("학생지원팀");
         categoryList.add("전자전기");
 
-        categoryAdapter = new MainCategoryAdapter(this, categoryList, onClickCategory);
+        categoryAdapter = new CategoryAdapter(this, categoryList, onClickCategory);
         categoryListView.setAdapter(categoryAdapter);
     }
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> categorySubList = new ArrayList<>();
         categorySubList.add("취업");
         categorySubList.add("공지사항");
-        categorySubAdapter = new MainCategoryAdapter(this, categorySubList, onClickSubCategory);
+        categorySubAdapter = new CategoryAdapter(this, categorySubList, onClickSubCategory);
         categorySubListView.setAdapter(categorySubAdapter);
     }
 

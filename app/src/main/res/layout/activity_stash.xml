@@ -6,63 +6,81 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/stash"
-        android:layout_width="252dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/stash"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:background="#FFFFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="77dp"
-        android:layout_height="90dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/backarrow"
-        android:textSize="40sp"
-        android:background="#FFFFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/stash"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/edit"
-        android:layout_width="77dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="#FFFFFFFF"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="@string/edit"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stash"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/delete"
+    <LinearLayout
+        android:id="@+id/stash_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/delete"
-        android:textSize="15sp"
-        android:visibility="invisible"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/top_bar_size"
+        android:background="@color/colorSample"
+        android:orientation="horizontal"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            android:id="@+id/stash"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="6"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/stash_title"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/title_size" />
+
+        <ImageButton
+            android:id="@+id/edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/edit_btn" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stash_category_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:elevation="@dimen/elevation"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stash_top_bar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/stash_category"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/category_bar_height"
+            android:layout_weight="1"
+            android:background="@drawable/box_angular"
+            android:scrollbars="none" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/stash_category_sub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/category_bar_height"
+            android:layout_weight="1"
+            android:background="@drawable/box_angular"
+            android:scrollbars="none"
+            android:visibility="gone" />
+    </LinearLayout>
 
 
     <LinearLayout
@@ -70,49 +88,27 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/College"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/stash_category_container"></LinearLayout>
 
     <Button
-        android:id="@+id/College"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/College"
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_size"
+        android:background="@color/colorSample"
+        android:clickable="false"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/delete"
+        android:textColor="@android:color/background_light"
+        android:textSize="@dimen/normal_txt_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stash" />
-
-    <Button
-        android:id="@+id/skkuhome"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/SKKU"
-        app:layout_constraintEnd_toStartOf="@+id/College"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/College" />
-
-    <Button
-        android:id="@+id/job"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/JOB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/College"
-        app:layout_constraintTop_toTopOf="@+id/College" />
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
