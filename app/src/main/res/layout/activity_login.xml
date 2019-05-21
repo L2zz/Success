@@ -4,52 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSample"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="#FFFFFF"
     tools:context=".LoginActivity">
 
     <!-- Login progress -->
 
+    <LinearLayout
+        android:id="@+id/logo_container"
+        android:layout_width="@dimen/logo_container_size"
+        android:layout_height="@dimen/logo_container_size"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/box_circle"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo_image"
+            android:layout_width="@dimen/logo_size"
+            android:layout_height="@dimen/logo_size"
+            android:src="@drawable/success_logo" />
+    </LinearLayout>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout3"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/login_edit_height"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="@drawable/box_round"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/edit_padding"
+        android:paddingTop="@dimen/edit_padding_top"
+        android:paddingRight="@dimen/edit_padding"
+        android:paddingBottom="@dimen/edit_padding_bottom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/logo_container">
 
         <AutoCompleteTextView
             android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/background_light"
             android:hint="이메일 주소"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="18sp" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/login_edit_height"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="18dp"
+
+
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray"
-
-
+        android:background="@drawable/box_round"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/edit_padding"
+        android:paddingTop="@dimen/edit_padding_top"
+        android:paddingRight="@dimen/edit_padding"
+        android:paddingBottom="@dimen/edit_padding_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
@@ -57,38 +89,19 @@
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/background_light"
             android:hint="비밀번호"
             android:imeActionId="6"
             android:imeActionLabel="@string/action_sign_in_short"
+
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
-
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="18sp" />
 
     </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/email_sign_up_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="38dp"
-
-
-        android:layout_marginEnd="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginBottom="160dp"
-        android:text="회원가입"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/search_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_in_Button"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/log_in_Button"
@@ -100,6 +113,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_weight="1"
+        android:background="@drawable/box_round"
         android:text="로그인"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,32 +121,33 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
     <Button
+        android:id="@+id/email_sign_up_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+
+        android:layout_marginLeft="100dp"
+
+
+        android:background="@android:color/transparent"
+        android:text="회원가입"
+        android:textColor="@color/colorBlurredWhite"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/search_password"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/search_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:background="@android:color/transparent"
         android:text="비밀번호 찾기"
+        android:textColor="@color/colorBlurredWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/email_sign_up_button"
-        app:layout_constraintTop_toBottomOf="@+id/log_in_Button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="197dp"
-        android:layout_height="206dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:src="@drawable/success_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/email_sign_up_button" />
 
 </android.support.constraint.ConstraintLayout>
