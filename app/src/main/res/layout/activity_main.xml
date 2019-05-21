@@ -19,6 +19,7 @@
             android:background="@color/colorSample"
             android:orientation="horizontal"
             android:padding="10dp"
+            android:elevation="@dimen/elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -138,8 +139,12 @@
             android:id="@+id/main_drawer_title"
             android:layout_width="0dp"
             android:layout_height="@dimen/drawer_title_height"
+            android:background="@color/colorSample"
             android:gravity="center"
             android:text="@string/main_drawer_title"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/normal_txt_size"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

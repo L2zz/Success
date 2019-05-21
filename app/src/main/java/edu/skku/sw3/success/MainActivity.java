@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         categoryList.add("성균관대 공홈");
         categoryList.add("학생지원팀");
         categoryList.add("전자전기");
-        categoryList.add("기이이이이이이인 내용");
 
         categoryAdapter = new MainCategoryAdapter(this, categoryList, onClickCategory);
         categoryListView.setAdapter(categoryAdapter);
@@ -123,6 +122,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /* Set target sites */
                 drawer.closeDrawer(Gravity.RIGHT);
+            }
+        });
+
+        setBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.RIGHT);
             }
         });
     }
