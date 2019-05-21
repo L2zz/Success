@@ -13,6 +13,7 @@
         android:background="@color/colorSample"
         android:orientation="horizontal"
         android:padding="10dp"
+        android:elevation="@dimen/elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
