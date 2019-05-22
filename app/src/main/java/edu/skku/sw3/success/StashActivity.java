@@ -319,12 +319,19 @@ public class StashActivity extends AppCompatActivity {
         categoryList.add("학생지원팀");
         categoryList.add("전자전기");
 
-        categoryAdapter = new CategoryAdapter(this, categoryList);
+        categoryAdapter = new CategoryAdapter(this, categoryList, new CategoryAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                categoryAdapter.setLastSelectedIndex(position);
+                categoryAdapter.notifyDataSetChanged();
+                initSubCategory(position);
+            }
+        });
         categoryListView.setAdapter(categoryAdapter);
     }
 
     // 사이트 내부 공지사항 종류를 설정합니다.
-    private void setSubCategory() {
+    private void initSubCategory(int pos) {
         categorySubListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -333,7 +340,13 @@ public class StashActivity extends AppCompatActivity {
         ArrayList<String> categorySubList = new ArrayList<>();
         categorySubList.add("취업");
         categorySubList.add("공지사항");
-        categorySubAdapter = new CategoryAdapter(this, categorySubList);
+        categorySubAdapter = new CategoryAdapter(this, categorySubList, new CategoryAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                categorySubAdapter.setLastSelectedIndex(position);
+                categorySubAdapter.notifyDataSetChanged();
+            }
+        });
         categorySubListView.setAdapter(categorySubAdapter);
     }
 }
