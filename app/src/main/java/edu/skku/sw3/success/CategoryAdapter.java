@@ -57,7 +57,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
-            v.setSelected(true);
             lastSelectedIndex = getAdapterPosition();
             notifyDataSetChanged();
         }
