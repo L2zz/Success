@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,40 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Pattern;
-
-public class SignUpActivity extends AppCompatActivity {
-
-
-
-
-
+public class PasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_password);
 
         final EditText et_email = findViewById(R.id.email_edit);
         final TextView tv_email = findViewById(R.id.email_valid);
-
-        final EditText pw1 = findViewById(R.id.password_input1);
-        final EditText pw2 = findViewById(R.id.password_input2);
-
-        final TextView pw_valid1 = findViewById(R.id.pw_valid1);
-        final TextView pw_valid2 = findViewById(R.id.pw_valid2);
-
-
-
-
-
-
-
-
 
         // 확인버튼 누르면?
         Button button_confirm = findViewById(R.id.sign_up_button);
@@ -62,43 +35,27 @@ public class SignUpActivity extends AppCompatActivity {
                     tv_email.setText("");
                 }
 
-                // 입력받은 두 password 가 같지 않으면
-                String password1 = pw1.getText().toString();
-                String password2 = pw2.getText().toString();
 
-                if(password1.equals("")){
-                    pw_valid1.setText("비밀번호를 입력해주세요.");
-                }
-                else{
-                    pw_valid1.setText("");
-                }
 
-                if(!password1.equals(password2)){
-                    pw_valid2.setText("비밀번호가 동일하지 않습니다.");
-                }
-                else{
-                    pw_valid2.setText("");
-                }
-
-                if((tv_email.getText().toString().equals("")) && (pw_valid1.getText().toString().equals("")) && (pw_valid2.getText().toString().equals("")) ) {
+                if((tv_email.getText().toString().equals("")) ) {
 
                     // 서버와 통신해서 Sign up 해주기
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(SignUpActivity.this);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(PasswordActivity.this);
 
                     // 제목셋팅
-                    dialog.setTitle("회원가입 진행");
+                    dialog.setTitle("비밀번호 찾기");
 
                     // AlertDialog 셋팅
                     dialog
-                            .setMessage("입력하신 정보로 회원가입을 진행하시겠습니까?")
+                            .setMessage("입력하신 이메일로 비밀번호를 보낼까요?")
                             .setCancelable(false) //
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // 서버와 통신해서 회원가입 실행
 
-                                    Toast.makeText(SignUpActivity.this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PasswordActivity.this, "이메일 발송 완료", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             })
@@ -115,9 +72,9 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 }
-                
+
                 else{
-                    Toast.makeText(SignUpActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -132,10 +89,42 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
-                finish();
+                // 서버와 통신해서 Sign up 해주기
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(PasswordActivity.this);
+
+                // AlertDialog 셋팅
+                dialog
+                        .setMessage("비밀번호 찾기를 취소할까요?")
+                        .setCancelable(false) //
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 서버와 통신해서 회원가입 실행
+
+                                Toast.makeText(PasswordActivity.this, "비밀번호 찾기 취소", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("돌아가기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                dialog.create();
+                dialog.show(); // 알림창 보여주기
+
+
+
 
             }
         });
+
+
+
+
+
+
     }
 }

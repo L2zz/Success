@@ -63,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
 
         Button mEmailSignUpButton = (Button) findViewById(R.id.email_sign_up_button); // sign up button
 
+        Button mPasswordSearchButton = (Button) findViewById(R.id.search_password_button); // password search button
+
 
         // event handler
 
@@ -86,5 +88,18 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        mPasswordSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // PasswordActivity 를 불러온다
+                Intent intent = new Intent(getApplicationContext(), PasswordActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
     }
 }

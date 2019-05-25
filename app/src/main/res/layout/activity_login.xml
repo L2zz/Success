@@ -18,11 +18,12 @@
         android:id="@+id/logo_container"
         android:layout_width="@dimen/logo_container_size"
         android:layout_height="@dimen/logo_container_size"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/box_circle"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,7 +40,7 @@
         android:layout_height="@dimen/login_edit_height"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/box_round"
@@ -71,7 +72,7 @@
         android:layout_height="@dimen/login_edit_height"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="8dp"
 
 
         android:layout_marginEnd="16dp"
@@ -109,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_weight="1"
@@ -129,24 +130,24 @@
         android:layout_marginLeft="100dp"
 
 
-        android:background="@android:color/transparent"
+        android:background="@color/colorSample"
         android:text="회원가입"
         android:textColor="@color/colorBlurredWhite"
-        android:textSize="@dimen/small_txt_size"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/search_password"
+        app:layout_constraintEnd_toStartOf="@+id/search_password_button"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/search_password"
-        android:layout_width="0dp"
+        android:id="@+id/search_password_button"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:background="@android:color/transparent"
         android:text="비밀번호 찾기"
         android:textColor="@color/colorBlurredWhite"
-        android:textSize="@dimen/small_txt_size"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/email_sign_up_button" />

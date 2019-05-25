@@ -7,7 +7,7 @@
     tools:context=".SignUpActivity">
 
     <LinearLayout
-        android:id="@+id/sign_up_top_bar"
+        android:id="@+id/password_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_size"
         android:background="@color/colorSample"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/sign_up_title"
+            android:id="@+id/password_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -38,7 +38,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_top_bar">
+        app:layout_constraintTop_toBottomOf="@id/password_top_bar">
 
         <TextView
             android:id="@+id/email_txt"
@@ -56,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/email_txt"
+            android:hint="email@example.com"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true"
@@ -91,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/pwd_txt"
+            android:hint="●●●●●●●●"
             android:imeActionId="6"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
@@ -129,7 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/pwd_confirm_txt"
+            android:hint="●●●●●●●●"
             android:imeActionId="6"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
@@ -145,24 +145,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/sign_up_vertical_space"
+        android:layout_marginBottom="268dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:background="@color/colorSample"
-            android:text="@string/sign_up_cancel"
-            android:textColor="@android:color/background_light"
-            android:textSize="@dimen/normal_txt_size"
-            android:textStyle="normal" />
 
         <Button
             android:id="@+id/sign_up_button"
@@ -177,6 +164,61 @@
             android:textColor="@android:color/background_light"
             android:textSize="@dimen/normal_txt_size"
             android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:background="@color/colorSample"
+            android:text="@string/sign_up_cancel"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/normal_txt_size"
+            android:textStyle="normal" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/email_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/email_edit_container"
+        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintStart_toStartOf="@+id/email_edit_container"
+        app:layout_constraintTop_toBottomOf="@+id/password_top_bar" />
+
+
+    <TextView
+        android:id="@+id/pw_valid2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="252dp"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/email_edit_container"
+        app:layout_constraintHorizontal_bias="0.747"
+        app:layout_constraintStart_toStartOf="@+id/email_edit_container"
+        app:layout_constraintTop_toBottomOf="@+id/password_top_bar" />
+
+    <TextView
+        android:id="@+id/pw_valid1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/email_edit_container"
+        app:layout_constraintHorizontal_bias="0.631"
+        app:layout_constraintStart_toStartOf="@+id/email_edit_container"
+        app:layout_constraintTop_toBottomOf="@+id/password_top_bar" />
 
 </android.support.constraint.ConstraintLayout>

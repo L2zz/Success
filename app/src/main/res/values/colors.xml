@@ -3,7 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorLightGray">#DCDCDC</color>
+    <color name="colorLightGray">#5C0C0C</color>
     <color name="colorBlurredWhite">#DDFFFFFF</color>
 
     <!--Sample Colors for application theme-->
@@ -11,7 +11,7 @@
     <!--<color name="colorSample">#F89B00</color>-->
 
     <!--Orange-->
-    <color name="colorSample">#FF9D5D</color>
+    <color name="colorSample">#FBA753</color>
     <!--<color name="colorSample">#FF5722</color>-->
 
     <!--Pink-->
