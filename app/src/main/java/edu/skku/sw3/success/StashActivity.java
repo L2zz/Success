@@ -1,6 +1,7 @@
 package edu.skku.sw3.success;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,9 +34,8 @@ public class StashActivity extends AppCompatActivity {
 
     int editcheck = 0;
     int tabselect = 0;
+    int i;
     String categorytag = "";
-    String subcategorytag = "";
-
     LinearLayout container;
 
     ListView listview1;
@@ -45,6 +45,7 @@ public class StashActivity extends AppCompatActivity {
     ListView listview5;
     ListView sublistview;
 
+    ArrayList<Integer> BGarray;
     ArrayList<ListItem> list_1;
     ArrayList<ListItem> list_2;
     ArrayList<ListItem> list_3;
@@ -272,6 +273,7 @@ public class StashActivity extends AppCompatActivity {
             public void onClick(View v){
                 if(editcheck == 0) {
                     editcheck++;
+                    BGarray = new ArrayList<Integer>();
                     if(tabselect == 1){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -280,6 +282,23 @@ public class StashActivity extends AppCompatActivity {
                         ladapter = new ListAdapter(StashActivity.this,list_1);
                         listview1.setAdapter(ladapter);
                         listview1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_1.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
+
                     }else if(tabselect == 2){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -288,6 +307,22 @@ public class StashActivity extends AppCompatActivity {
                         ladapter = new ListAdapter(StashActivity.this,list_2);
                         listview2.setAdapter(ladapter);
                         listview2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_2.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
                     }else if(tabselect == 3){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -296,6 +331,22 @@ public class StashActivity extends AppCompatActivity {
                         ladapter = new ListAdapter(StashActivity.this,list_3);
                         listview3.setAdapter(ladapter);
                         listview3.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_3.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
                     }else if(tabselect == 4){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -304,6 +355,22 @@ public class StashActivity extends AppCompatActivity {
                         ladapter = new ListAdapter(StashActivity.this,list_4);
                         listview4.setAdapter(ladapter);
                         listview4.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_4.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
                     }else if(tabselect == 5){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -312,11 +379,30 @@ public class StashActivity extends AppCompatActivity {
                         ladapter = new ListAdapter(StashActivity.this,list_3);
                         listview5.setAdapter(ladapter);
                         listview5.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_5.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview5.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray != null){
+                                    if(BGarray.get(position) == 0){
+                                        view.setBackgroundColor(Color.rgb(128,128,128));
+                                        BGarray.set(position,1);
+                                    }
+                                    else if(BGarray.get(position) == 1) {
+                                        view.setBackgroundColor(Color.rgb(250, 250, 250));
+                                        BGarray.set(position, 0);
+                                    }
+                                }
+                            }
+                        });
                     }
                     del.setVisibility(View.VISIBLE);
                     del.setClickable(true);
                 }else{
                     editcheck--;
+                    BGarray = new ArrayList<Integer>();
                     del.setVisibility(View.INVISIBLE);
                     del.setClickable(false);
                     if(tabselect == 1){
@@ -362,6 +448,7 @@ public class StashActivity extends AppCompatActivity {
         del.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 if(editcheck == 1){
+                    BGarray = new ArrayList<Integer>();
                     if(tabselect == 1){
                         SparseBooleanArray sb = listview1.getCheckedItemPositions();
                         if(sb.size() !=0){
@@ -373,6 +460,9 @@ public class StashActivity extends AppCompatActivity {
                             listview1.clearChoices();
                             ladapter = new ListAdapter(StashActivity.this,list_1);
                             listview1.setAdapter(ladapter);
+                            for(i=0;i<list_1.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 2){
@@ -386,6 +476,9 @@ public class StashActivity extends AppCompatActivity {
                             listview2.clearChoices();
                             ladapter = new ListAdapter(StashActivity.this,list_2);
                             listview2.setAdapter(ladapter);
+                            for(i=0;i<list_2.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 3){
@@ -399,6 +492,9 @@ public class StashActivity extends AppCompatActivity {
                             listview3.clearChoices();
                             ladapter = new ListAdapter(StashActivity.this,list_3);
                             listview3.setAdapter(ladapter);
+                            for(i=0;i<list_3.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 4){
@@ -412,6 +508,9 @@ public class StashActivity extends AppCompatActivity {
                             listview4.clearChoices();
                             ladapter = new ListAdapter(StashActivity.this,list_4);
                             listview4.setAdapter(ladapter);
+                            for(i=0;i<list_4.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 5){
@@ -425,6 +524,9 @@ public class StashActivity extends AppCompatActivity {
                             listview5.clearChoices();
                             ladapter = new ListAdapter(StashActivity.this,list_5);
                             listview5.setAdapter(ladapter);
+                            for(i=0;i<list_5.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                 }
@@ -442,8 +544,8 @@ public class StashActivity extends AppCompatActivity {
         ArrayList<String> categoryList = new ArrayList<>();
         categoryList.add("성균관대");
         categoryList.add("학사공지");
-        categoryList.add("정보통신대학");
         categoryList.add("소프트웨어");
+        categoryList.add("정보통신대학");
         categoryList.add("학생지원팀");
 
         categoryAdapter = new CategoryAdapter(this, categoryList, onClickCategory);
@@ -463,4 +565,5 @@ public class StashActivity extends AppCompatActivity {
         categorySubAdapter = new CategoryAdapter(this, categorySubList, onClickSubCategory);
         categorySubListView.setAdapter(categorySubAdapter);
     }
+
 }
