@@ -1,6 +1,8 @@
 package edu.skku.sw3.success;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.PaintDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -28,32 +31,29 @@ public class StashActivity extends AppCompatActivity {
     ImageButton back;
     ImageButton edit;
     Button del;
-//    Button btn1;
-//    Button btn2;
-//    Button btn3;
-
-    //int sstash
-    //int cstash
-    //int jstash
 
     int editcheck = 0;
-    int editselect = 0;
-    int tabselect = 1;
-
+    int tabselect = 0;
+    int i;
+    String categorytag = "";
     LinearLayout container;
 
     ListView listview1;
     ListView listview2;
     ListView listview3;
+    ListView listview4;
+    ListView listview5;
+    ListView sublistview;
 
-    ArrayList<HashMap<String,String>> list_1;
-    ArrayList<HashMap<String,String>> list_2;
-    ArrayList<HashMap<String,String>> list_3;
-    HashMap<String,String> listcontent;
+    ArrayList<Integer> BGarray;
+    ArrayList<ListItem> list_1;
+    ArrayList<ListItem> list_2;
+    ArrayList<ListItem> list_3;
+    ArrayList<ListItem> list_4;
+    ArrayList<ListItem> list_5;
+    ArrayList<ListItem> sublist;
 
-    SimpleAdapter simpleAdapter1;
-    SimpleAdapter simpleAdapter2;
-    SimpleAdapter simpleAdapter3;
+    ListAdapter ladapter;
 
     private RecyclerView categoryListView, categorySubListView;
     private CategoryAdapter categoryAdapter, categorySubAdapter;
@@ -62,8 +62,65 @@ public class StashActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             /* Action after click main category */
+            if(editcheck == 1){
+                editcheck--;
+                del.setVisibility(View.INVISIBLE);
+                del.setClickable(false);
+            }
             String str = (String) v.getTag();
-            Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+            if(categorytag == str){
+                categorySubListView.setVisibility(View.INVISIBLE);
+            }
+            else if(str == "성균관대"){
+                tabselect = 1;
+                categorytag = str;
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                listview1 = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,list_1);
+                listview1.setAdapter(ladapter);
+            }
+            else if(str == "학사공지"){
+                tabselect = 2;
+                categorytag = str;
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                listview2 = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,list_2);
+                listview2.setAdapter(ladapter);
+            }
+            else if(str == "소프트웨어"){
+                tabselect = 3;
+                categorytag = str;
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                listview3 = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,list_3);
+                listview3.setAdapter(ladapter);
+            }
+            else if(str == "정보통신대학"){
+                tabselect = 4;
+                categorytag = str;
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                listview4 = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,list_4);
+                listview4.setAdapter(ladapter);
+            }
+            else if(str == "학생지원팀"){
+                tabselect = 5;
+                categorytag = str;
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                listview5 = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,list_5);
+                listview5.setAdapter(ladapter);
+            }
             setSubCategory();
         }
     };
@@ -71,8 +128,94 @@ public class StashActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // 사이트 내부 공지사항 종류를 선택했을 때 행동
+            if(editcheck == 1){
+                del.setVisibility(View.INVISIBLE);
+                del.setClickable(false);
+            }
+
+            sublist = new ArrayList<ListItem>();
+
             String str = (String) v.getTag();
-            Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+            if(str == "공지사항"){
+                if(tabselect == 1){
+                    for(int i = 0; i < list_1.size(); i++){
+                        if(list_1.get(i).getCategory() == "공지사항"){
+                            sublist.add(list_1.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 2){
+                    for(int i = 0; i < list_2.size(); i++){
+                        if(list_2.get(i).getCategory() == "공지사항"){
+                            sublist.add(list_2.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 3){
+                    for(int i = 0; i < list_3.size(); i++){
+                        if(list_3.get(i).getCategory() == "공지사항"){
+                            sublist.add(list_3.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 4){
+                    for(int i = 0; i < list_4.size(); i++){
+                        if(list_4.get(i).getCategory() == "공지사항"){
+                            sublist.add(list_4.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 5){
+                    for(int i = 0; i < list_5.size(); i++){
+                        if(list_5.get(i).getCategory() == "공지사항"){
+                            sublist.add(list_5.get(i));
+                        }
+                    }
+                }
+            }
+            else if(str == "취업"){
+                if(tabselect == 1){
+                    for(int i = 0; i < list_1.size(); i++){
+                        if(list_1.get(i).getCategory() == "취업"){
+                            sublist.add(list_1.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 2){
+                    for(int i = 0; i < list_2.size(); i++){
+                        if(list_2.get(i).getCategory() == "취업"){
+                            sublist.add(list_2.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 3){
+                    for(int i = 0; i < list_3.size(); i++){
+                        if(list_3.get(i).getCategory() == "취업"){
+                            sublist.add(list_3.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 4){
+                    for(int i = 0; i < list_4.size(); i++){
+                        if(list_4.get(i).getCategory() == "취업"){
+                            sublist.add(list_4.get(i));
+                        }
+                    }
+                }
+                else if(tabselect == 5){
+                    for(int i = 0; i < list_5.size(); i++){
+                        if(list_5.get(i).getCategory() == "취업"){
+                            sublist.add(list_5.get(i));
+                        }
+                    }
+                }
+            }
+            container.removeAllViews();
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater.inflate(R.layout.container_layout, container, true);
+            sublistview = findViewById(R.id.list_container);
+            ladapter = new ListAdapter(StashActivity.this,sublist);
+            sublistview.setAdapter(ladapter);
         }
     };
 
@@ -84,48 +227,39 @@ public class StashActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         edit = findViewById(R.id.edit);
         del = findViewById(R.id.delete);
-//        btn1 = findViewById(R.id.skkuhome);
-//        btn2 = findViewById(R.id.College);
-//        btn3 = findViewById(R.id.job);
         container = (LinearLayout)findViewById(R.id.container);
         categoryListView = findViewById(R.id.stash_category);
         categorySubListView = findViewById(R.id.stash_category_sub);
 
-        list_1 = new ArrayList<HashMap<String, String>>();
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","성균관대 공지사항");
-        listcontent.put("date","190511");
-        list_1.add(listcontent);
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","예시1");
-        listcontent.put("date","190512");
-        list_1.add(listcontent);
+        list_1 = new ArrayList<ListItem>();
+        ListItem LItem = new ListItem("예시1","20190529","공지사항");
+        list_1.add(LItem);
+        LItem = new ListItem("예시2","190512","취업");
+        list_1.add(LItem);
 
-        list_2 = new ArrayList<HashMap<String, String>>();
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","소프트웨어학과 공지사항");
-        listcontent.put("date","190511");
-        list_2.add(listcontent);
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","예시2");
-        listcontent.put("date","190512");
-        list_2.add(listcontent);
+        list_2 = new ArrayList<ListItem>();
+        LItem = new ListItem("예시3","190511","공지사항");
+        list_2.add(LItem);
+        LItem = new ListItem("예시4","190512","취업");
+        list_2.add(LItem);
 
-        list_3 = new ArrayList<HashMap<String, String>>();
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","학생인재개발팀 공지사항");
-        listcontent.put("date","190511");
-        list_3.add(listcontent);
-        listcontent = new HashMap<String, String>();
-        listcontent.put("Title","예시3");
-        listcontent.put("date","190512");
-        list_3.add(listcontent);
+        list_3 = new ArrayList<ListItem>();
+        LItem = new ListItem("예시5","190511","공지사항");
+        list_3.add(LItem);
+        LItem = new ListItem("예시6","190512","취업");
+        list_3.add(LItem);
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.sub1, container, true);
-        listview1 = findViewById(R.id.list1);
-        simpleAdapter1 = new SimpleAdapter(StashActivity.this, list_1,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-        listview1.setAdapter(simpleAdapter1);
+        list_4 = new ArrayList<ListItem>();
+        LItem = new ListItem("예시7","190524","공지사항");
+        list_4.add(LItem);
+        LItem = new ListItem("예시8","190524","취업");
+        list_4.add(LItem);
+
+        list_5 = new ArrayList<ListItem>();
+        LItem = new ListItem("예시9","190524","공지사항");
+        list_5.add(LItem);
+        LItem = new ListItem("예시10","190524","취업");
+        list_5.add(LItem);
 
         back.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
@@ -135,145 +269,177 @@ public class StashActivity extends AppCompatActivity {
 
         setCategory();
 
-//        btn1.setOnClickListener(new Button.OnClickListener(){
-//            public void onClick(View v){
-//                if(tabselect == 1){
-//
-//                }else if(editcheck == 1 && tabselect != 1){
-//                    tabselect = 1;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub1, container, true);
-//                    listview1 = findViewById(R.id.list1);
-//                    simpleAdapter1 = new SimpleAdapter(StashActivity.this, list_1,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview1.setAdapter(simpleAdapter1);
-//                    listview1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//
-//                }else{
-//                    tabselect = 1;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub1, container, true);
-//                    listview1 = findViewById(R.id.list1);
-//                    simpleAdapter1 = new SimpleAdapter(StashActivity.this, list_1,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview1.setAdapter(simpleAdapter1);
-//                }
-//            }
-//        });
-//
-//        btn2.setOnClickListener(new Button.OnClickListener(){
-//            public void onClick(View v){
-//                if(tabselect == 2){
-//
-//                }else if(editcheck == 1 && tabselect != 2){
-//                    tabselect = 2;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub2, container, true);
-//                    listview2 = findViewById(R.id.list2);
-//                    simpleAdapter2 = new SimpleAdapter(StashActivity.this, list_2,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview2.setAdapter(simpleAdapter2);
-//                    listview2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//                }else{
-//                    tabselect = 2;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub2, container, true);
-//                    listview2 = findViewById(R.id.list2);
-//                    simpleAdapter2 = new SimpleAdapter(StashActivity.this, list_2,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview2.setAdapter(simpleAdapter2);
-//                }
-//            }
-//        });
-//
-//        btn3.setOnClickListener(new Button.OnClickListener(){
-//            public void onClick(View v){
-//                if(tabselect == 3){
-//
-//                }else if(editcheck == 1 && tabselect != 3){
-//                    tabselect = 3;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub3, container, true);
-//                    listview3 = findViewById(R.id.list3);
-//                    simpleAdapter3 = new SimpleAdapter(StashActivity.this, list_3,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview3.setAdapter(simpleAdapter3);
-//                    listview3.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//                }
-//                else{
-//                    tabselect = 3;
-//
-//                    container.removeAllViews();
-//                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    inflater.inflate(R.layout.sub3, container, true);
-//                    listview3 = findViewById(R.id.list3);
-//                    simpleAdapter3 = new SimpleAdapter(StashActivity.this, list_3,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-//                    listview3.setAdapter(simpleAdapter3);
-//                }
-//            }
-//        });
-
         edit.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 if(editcheck == 0) {
                     editcheck++;
+                    BGarray = new ArrayList<Integer>();
                     if(tabselect == 1){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub1, container, true);
-                        listview1 = findViewById(R.id.list1);
-                        simpleAdapter1 = new SimpleAdapter(StashActivity.this, list_1,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview1.setAdapter(simpleAdapter1);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview1 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_1);
+                        listview1.setAdapter(ladapter);
                         listview1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_1.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
+
                     }else if(tabselect == 2){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub2, container, true);
-                        listview2 = findViewById(R.id.list2);
-                        simpleAdapter2 = new SimpleAdapter(StashActivity.this, list_2,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview2.setAdapter(simpleAdapter2);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview2 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_2);
+                        listview2.setAdapter(ladapter);
                         listview2.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    }else{
+                        for(i = 0;i < list_2.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
+                    }else if(tabselect == 3){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub3, container, true);
-                        listview3 = findViewById(R.id.list3);
-                        simpleAdapter3 = new SimpleAdapter(StashActivity.this, list_3,android.R.layout.simple_list_item_multiple_choice,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview3.setAdapter(simpleAdapter3);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview3 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_3);
+                        listview3.setAdapter(ladapter);
                         listview3.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_3.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
+                    }else if(tabselect == 4){
+                        container.removeAllViews();
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview4 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_4);
+                        listview4.setAdapter(ladapter);
+                        listview4.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_4.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray.get(position) == 0){
+                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    BGarray.set(position,1);
+                                }
+                                else if(BGarray.get(position) == 1){
+                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    BGarray.set(position,0);
+                                }
+                            }
+                        });
+                    }else if(tabselect == 5){
+                        container.removeAllViews();
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview5 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_3);
+                        listview5.setAdapter(ladapter);
+                        listview5.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                        for(i = 0;i < list_5.size() ; i++){
+                            BGarray.add(i,0);
+                        }
+                        listview5.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(BGarray != null){
+                                    if(BGarray.get(position) == 0){
+                                        view.setBackgroundColor(Color.rgb(128,128,128));
+                                        BGarray.set(position,1);
+                                    }
+                                    else if(BGarray.get(position) == 1) {
+                                        view.setBackgroundColor(Color.rgb(250, 250, 250));
+                                        BGarray.set(position, 0);
+                                    }
+                                }
+                            }
+                        });
                     }
                     del.setVisibility(View.VISIBLE);
                     del.setClickable(true);
                 }else{
                     editcheck--;
+                    BGarray = new ArrayList<Integer>();
                     del.setVisibility(View.INVISIBLE);
                     del.setClickable(false);
                     if(tabselect == 1){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub1, container, true);
-                        listview1 = findViewById(R.id.list1);
-                        simpleAdapter1 = new SimpleAdapter(StashActivity.this, list_1,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview1.setAdapter(simpleAdapter1);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview1 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_1);
+                        listview1.setAdapter(ladapter);
                     }else if(tabselect == 2){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub2, container, true);
-                        listview2 = findViewById(R.id.list2);
-                        simpleAdapter2 = new SimpleAdapter(StashActivity.this, list_2,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview2.setAdapter(simpleAdapter2);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview2 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_2);
+                        listview2.setAdapter(ladapter);
                     }else if(tabselect == 3){
                         container.removeAllViews();
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        inflater.inflate(R.layout.sub3, container, true);
-                        listview3 = findViewById(R.id.list3);
-                        simpleAdapter3 = new SimpleAdapter(StashActivity.this, list_3,android.R.layout.simple_list_item_2,new String[]{"Title","date"},new int[]{android.R.id.text1,android.R.id.text2});
-                        listview3.setAdapter(simpleAdapter3);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview3 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_3);
+                        listview3.setAdapter(ladapter);
+                    }else if(tabselect == 4){
+                        container.removeAllViews();
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview4 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_4);
+                        listview4.setAdapter(ladapter);
+                    }else if(tabselect == 5){
+                        container.removeAllViews();
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        inflater.inflate(R.layout.container_layout, container, true);
+                        listview5 = findViewById(R.id.list_container);
+                        ladapter = new ListAdapter(StashActivity.this,list_5);
+                        listview5.setAdapter(ladapter);
                     }
                 }
             }
@@ -282,45 +448,91 @@ public class StashActivity extends AppCompatActivity {
         del.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 if(editcheck == 1){
+                    BGarray = new ArrayList<Integer>();
                     if(tabselect == 1){
-                        SparseBooleanArray sb1 = listview1.getCheckedItemPositions();
-                        if(sb1.size() !=0){
+                        SparseBooleanArray sb = listview1.getCheckedItemPositions();
+                        if(sb.size() !=0){
                             for(int i = listview1.getCount() - 1; i >= 0; i--){
-                                if(sb1.get(i)){
+                                if(sb.get(i)){
                                     list_1.remove(i);
                                 }
                             }
-                            listview1.clearChoices();;
-                            simpleAdapter1.notifyDataSetChanged();
+                            listview1.clearChoices();
+                            ladapter = new ListAdapter(StashActivity.this,list_1);
+                            listview1.setAdapter(ladapter);
+                            for(i=0;i<list_1.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 2){
-                        SparseBooleanArray sb2 = listview2.getCheckedItemPositions();
-                        if(sb2.size() !=0){
+                        SparseBooleanArray sb = listview2.getCheckedItemPositions();
+                        if(sb.size() !=0){
                             for(int i = listview2.getCount() - 1; i >= 0; i--){
-                                if(sb2.get(i)){
+                                if(sb.get(i)){
                                     list_2.remove(i);
                                 }
                             }
-                            listview2.clearChoices();;
-                            simpleAdapter2.notifyDataSetChanged();
+                            listview2.clearChoices();
+                            ladapter = new ListAdapter(StashActivity.this,list_2);
+                            listview2.setAdapter(ladapter);
+                            for(i=0;i<list_2.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                     else if(tabselect == 3){
-                        SparseBooleanArray sb3 = listview3.getCheckedItemPositions();
-                        if(sb3.size() !=0){
+                        SparseBooleanArray sb = listview3.getCheckedItemPositions();
+                        if(sb.size() !=0){
                             for(int i = listview3.getCount() - 1; i >= 0; i--){
-                                if(sb3.get(i)){
+                                if(sb.get(i)){
                                     list_3.remove(i);
                                 }
                             }
-                            listview3.clearChoices();;
-                            simpleAdapter3.notifyDataSetChanged();
+                            listview3.clearChoices();
+                            ladapter = new ListAdapter(StashActivity.this,list_3);
+                            listview3.setAdapter(ladapter);
+                            for(i=0;i<list_3.size();i++){
+                                BGarray.add(i,0);
+                            }
+                        }
+                    }
+                    else if(tabselect == 4){
+                        SparseBooleanArray sb = listview4.getCheckedItemPositions();
+                        if(sb.size() !=0){
+                            for(int i = listview4.getCount() - 1; i >= 0; i--){
+                                if(sb.get(i)){
+                                    list_4.remove(i);
+                                }
+                            }
+                            listview4.clearChoices();
+                            ladapter = new ListAdapter(StashActivity.this,list_4);
+                            listview4.setAdapter(ladapter);
+                            for(i=0;i<list_4.size();i++){
+                                BGarray.add(i,0);
+                            }
+                        }
+                    }
+                    else if(tabselect == 5){
+                        SparseBooleanArray sb = listview5.getCheckedItemPositions();
+                        if(sb.size() !=0){
+                            for(int i = listview5.getCount() - 1; i >= 0; i--){
+                                if(sb.get(i)){
+                                    list_5.remove(i);
+                                }
+                            }
+                            listview5.clearChoices();
+                            ladapter = new ListAdapter(StashActivity.this,list_5);
+                            listview5.setAdapter(ladapter);
+                            for(i=0;i<list_5.size();i++){
+                                BGarray.add(i,0);
+                            }
                         }
                     }
                 }
             }
         });
+
     }
 
     // 사이트 항목을 설정합니다
@@ -330,12 +542,11 @@ public class StashActivity extends AppCompatActivity {
         categoryListView.setLayoutManager(layoutManager);
 
         ArrayList<String> categoryList = new ArrayList<>();
+        categoryList.add("성균관대");
+        categoryList.add("학사공지");
         categoryList.add("소프트웨어");
-        categoryList.add("학사 공지");
         categoryList.add("정보통신대학");
-        categoryList.add("성균관대 공홈");
         categoryList.add("학생지원팀");
-        categoryList.add("전자전기");
 
         categoryAdapter = new CategoryAdapter(this, categoryList, onClickCategory);
         categoryListView.setAdapter(categoryAdapter);
@@ -349,9 +560,10 @@ public class StashActivity extends AppCompatActivity {
         categorySubListView.setLayoutManager(layoutManager);
 
         ArrayList<String> categorySubList = new ArrayList<>();
-        categorySubList.add("취업");
         categorySubList.add("공지사항");
+        categorySubList.add("취업");
         categorySubAdapter = new CategoryAdapter(this, categorySubList, onClickSubCategory);
         categorySubListView.setAdapter(categorySubAdapter);
     }
+
 }
