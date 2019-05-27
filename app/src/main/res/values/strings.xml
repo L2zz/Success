@@ -26,6 +26,10 @@
     <string name="main_drawer_title">알림 사이트 선택</string>
     <string name="main_drawer_cancel">취소</string>
     <string name="main_drawer_confirm">확인</string>
+    <string-array name="user_btn_operation">
+        <item>개인정보 수정</item>
+        <item>로그아웃</item>
+    </string-array>
 
     <!--String related to StashActivity-->
     <string name="stash_title">보관함</string>

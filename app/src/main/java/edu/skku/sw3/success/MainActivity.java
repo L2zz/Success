@@ -1,7 +1,9 @@
 package edu.skku.sw3.success;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private EditText searchEdit;
-    private ImageButton searchBtn, storeBtn, setBtn;
+    private ImageButton userBtn, searchBtn, storeBtn, setBtn;
     private RecyclerView categoryListView, categorySubListView;
     private ListView mainContent;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userBtn = findViewById(R.id.main_user_btn);
         searchEdit = findViewById(R.id.main_search_edit);
         searchBtn = findViewById(R.id.main_search_btn);
         storeBtn = findViewById(R.id.main_store_btn);
@@ -50,6 +53,27 @@ public class MainActivity extends AppCompatActivity {
 
         initCategory();
         setDrawer();
+
+        userBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] items = getResources().getStringArray(R.array.user_btn_operation);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("계정관리");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int pos) {
+                        if (pos == 0) {
+
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
 
         storeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
