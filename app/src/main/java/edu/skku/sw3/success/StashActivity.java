@@ -128,11 +128,11 @@ public class StashActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if(BGarray.get(position) == 0){
-                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
                                     BGarray.set(position,1);
                                 }
                                 else if(BGarray.get(position) == 1){
-                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                                     BGarray.set(position,0);
                                 }
                             }
@@ -153,11 +153,11 @@ public class StashActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if(BGarray.get(position) == 0){
-                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
                                     BGarray.set(position,1);
                                 }
                                 else if(BGarray.get(position) == 1){
-                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                                     BGarray.set(position,0);
                                 }
                             }
@@ -177,11 +177,11 @@ public class StashActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if(BGarray.get(position) == 0){
-                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
                                     BGarray.set(position,1);
                                 }
                                 else if(BGarray.get(position) == 1){
-                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                                     BGarray.set(position,0);
                                 }
                             }
@@ -201,11 +201,11 @@ public class StashActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if(BGarray.get(position) == 0){
-                                    view.setBackgroundColor(Color.rgb(128,128,128));
+                                    view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
                                     BGarray.set(position,1);
                                 }
                                 else if(BGarray.get(position) == 1){
-                                    view.setBackgroundColor(Color.rgb(250,250,250));
+                                    view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                                     BGarray.set(position,0);
                                 }
                             }
@@ -226,11 +226,11 @@ public class StashActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if(BGarray != null){
                                     if(BGarray.get(position) == 0){
-                                        view.setBackgroundColor(Color.rgb(128,128,128));
+                                        view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
                                         BGarray.set(position,1);
                                     }
                                     else if(BGarray.get(position) == 1) {
-                                        view.setBackgroundColor(Color.rgb(250, 250, 250));
+                                        view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                                         BGarray.set(position, 0);
                                     }
                                 }
