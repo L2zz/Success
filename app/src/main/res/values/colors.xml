@@ -3,7 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorLightGray">#5C0C0C</color>
+    <color name="colorLightGray">#E7E7E7</color>
     <color name="colorBlurredWhite">#DDFFFFFF</color>
 
     <!--Sample Colors for application theme-->

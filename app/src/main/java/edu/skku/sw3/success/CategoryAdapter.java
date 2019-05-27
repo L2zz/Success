@@ -13,12 +13,17 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private ArrayList<String> categoryList;
     private Context context;
-    private View.OnClickListener onClickCategory;
+    private Integer lastSelectedIndex;
+    private CategoryOnClickListener categoryOnClickListener;
 
-    public CategoryAdapter(Context context, ArrayList<String> categoryList, View.OnClickListener onClickCategory) {
+    public CategoryAdapter(Context context, ArrayList<String> categoryList, CategoryOnClickListener onClickListener) {
         this.categoryList = categoryList;
         this.context = context;
-        this.onClickCategory = onClickCategory;
+        this.categoryOnClickListener = onClickListener;
+    }
+
+    public interface CategoryOnClickListener {
+        void onCategoryClicked(int position);
     }
 
     @NonNull
@@ -32,16 +37,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder viewHolder, int i) {
+        final int pos = i;
         String categoryTitle = categoryList.get(i);
 
         viewHolder.category.setText(categoryTitle);
         viewHolder.category.setTag(categoryTitle);
-        viewHolder.category.setOnClickListener(onClickCategory);
+        viewHolder.category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoryOnClickListener.onCategoryClicked(pos);
+            }
+        });
+        if (lastSelectedIndex != null) {
+            viewHolder.category.setSelected(i == lastSelectedIndex);
+        }
     }
 
     @Override
     public int getItemCount() {
         return categoryList.size();
+    }
+
+    public void setLastSelectedIndex(int pos) {
+        lastSelectedIndex = pos;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -57,167 +57,6 @@ public class StashActivity extends AppCompatActivity {
 
     private RecyclerView categoryListView, categorySubListView;
     private CategoryAdapter categoryAdapter, categorySubAdapter;
-    // 사이트 지정후 내부 항목을 보여줍니다.
-    private View.OnClickListener onClickCategory = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            /* Action after click main category */
-            if(editcheck == 1){
-                editcheck--;
-                del.setVisibility(View.INVISIBLE);
-                del.setClickable(false);
-            }
-            String str = (String) v.getTag();
-            if(categorytag == str){
-                categorySubListView.setVisibility(View.INVISIBLE);
-            }
-            else if(str == "성균관대"){
-                tabselect = 1;
-                categorytag = str;
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                listview1 = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,list_1);
-                listview1.setAdapter(ladapter);
-            }
-            else if(str == "학사공지"){
-                tabselect = 2;
-                categorytag = str;
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                listview2 = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,list_2);
-                listview2.setAdapter(ladapter);
-            }
-            else if(str == "소프트웨어"){
-                tabselect = 3;
-                categorytag = str;
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                listview3 = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,list_3);
-                listview3.setAdapter(ladapter);
-            }
-            else if(str == "정보통신대학"){
-                tabselect = 4;
-                categorytag = str;
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                listview4 = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,list_4);
-                listview4.setAdapter(ladapter);
-            }
-            else if(str == "학생지원팀"){
-                tabselect = 5;
-                categorytag = str;
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                listview5 = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,list_5);
-                listview5.setAdapter(ladapter);
-            }
-            setSubCategory();
-        }
-    };
-    private View.OnClickListener onClickSubCategory = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // 사이트 내부 공지사항 종류를 선택했을 때 행동
-            if(editcheck == 1){
-                del.setVisibility(View.INVISIBLE);
-                del.setClickable(false);
-            }
-
-            sublist = new ArrayList<ListItem>();
-
-            String str = (String) v.getTag();
-            if(str == "공지사항"){
-                if(tabselect == 1){
-                    for(int i = 0; i < list_1.size(); i++){
-                        if(list_1.get(i).getCategory() == "공지사항"){
-                            sublist.add(list_1.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 2){
-                    for(int i = 0; i < list_2.size(); i++){
-                        if(list_2.get(i).getCategory() == "공지사항"){
-                            sublist.add(list_2.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 3){
-                    for(int i = 0; i < list_3.size(); i++){
-                        if(list_3.get(i).getCategory() == "공지사항"){
-                            sublist.add(list_3.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 4){
-                    for(int i = 0; i < list_4.size(); i++){
-                        if(list_4.get(i).getCategory() == "공지사항"){
-                            sublist.add(list_4.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 5){
-                    for(int i = 0; i < list_5.size(); i++){
-                        if(list_5.get(i).getCategory() == "공지사항"){
-                            sublist.add(list_5.get(i));
-                        }
-                    }
-                }
-            }
-            else if(str == "취업"){
-                if(tabselect == 1){
-                    for(int i = 0; i < list_1.size(); i++){
-                        if(list_1.get(i).getCategory() == "취업"){
-                            sublist.add(list_1.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 2){
-                    for(int i = 0; i < list_2.size(); i++){
-                        if(list_2.get(i).getCategory() == "취업"){
-                            sublist.add(list_2.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 3){
-                    for(int i = 0; i < list_3.size(); i++){
-                        if(list_3.get(i).getCategory() == "취업"){
-                            sublist.add(list_3.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 4){
-                    for(int i = 0; i < list_4.size(); i++){
-                        if(list_4.get(i).getCategory() == "취업"){
-                            sublist.add(list_4.get(i));
-                        }
-                    }
-                }
-                else if(tabselect == 5){
-                    for(int i = 0; i < list_5.size(); i++){
-                        if(list_5.get(i).getCategory() == "취업"){
-                            sublist.add(list_5.get(i));
-                        }
-                    }
-                }
-            }
-            container.removeAllViews();
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater.inflate(R.layout.container_layout, container, true);
-            sublistview = findViewById(R.id.list_container);
-            ladapter = new ListAdapter(StashActivity.this,sublist);
-            sublistview.setAdapter(ladapter);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -548,12 +387,70 @@ public class StashActivity extends AppCompatActivity {
         categoryList.add("정보통신대학");
         categoryList.add("학생지원팀");
 
-        categoryAdapter = new CategoryAdapter(this, categoryList, onClickCategory);
+        categoryAdapter = new CategoryAdapter(this, categoryList, new CategoryAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                categoryAdapter.setLastSelectedIndex(position);
+                categoryAdapter.notifyDataSetChanged();
+                if(editcheck == 1){
+                    editcheck--;
+                    del.setVisibility(View.INVISIBLE);
+                    del.setClickable(false);
+                }
+
+                if(position == 1){
+                    tabselect = 1;
+                    container.removeAllViews();
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    inflater.inflate(R.layout.container_layout, container, true);
+                    listview1 = findViewById(R.id.list_container);
+                    ladapter = new ListAdapter(StashActivity.this,list_1);
+                    listview1.setAdapter(ladapter);
+                }
+                else if(position == 2){
+                    tabselect = 2;
+                    container.removeAllViews();
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    inflater.inflate(R.layout.container_layout, container, true);
+                    listview2 = findViewById(R.id.list_container);
+                    ladapter = new ListAdapter(StashActivity.this,list_2);
+                    listview2.setAdapter(ladapter);
+                }
+                else if(position == 3){
+                    tabselect = 3;
+                    container.removeAllViews();
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    inflater.inflate(R.layout.container_layout, container, true);
+                    listview3 = findViewById(R.id.list_container);
+                    ladapter = new ListAdapter(StashActivity.this,list_3);
+                    listview3.setAdapter(ladapter);
+                }
+                else if(position == 4){
+                    tabselect = 4;
+                    container.removeAllViews();
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    inflater.inflate(R.layout.container_layout, container, true);
+                    listview4 = findViewById(R.id.list_container);
+                    ladapter = new ListAdapter(StashActivity.this,list_4);
+                    listview4.setAdapter(ladapter);
+                }
+                else if(position == 5){
+                    tabselect = 5;
+                    container.removeAllViews();
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    inflater.inflate(R.layout.container_layout, container, true);
+                    listview5 = findViewById(R.id.list_container);
+                    ladapter = new ListAdapter(StashActivity.this,list_5);
+                    listview5.setAdapter(ladapter);
+                }
+                initSubCategory(position);
+            }
+        });
         categoryListView.setAdapter(categoryAdapter);
     }
 
     // 사이트 내부 공지사항 종류를 설정합니다.
-    private void setSubCategory() {
+    private void initSubCategory(int pos) {
         categorySubListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -562,7 +459,98 @@ public class StashActivity extends AppCompatActivity {
         ArrayList<String> categorySubList = new ArrayList<>();
         categorySubList.add("공지사항");
         categorySubList.add("취업");
-        categorySubAdapter = new CategoryAdapter(this, categorySubList, onClickSubCategory);
+        categorySubAdapter = new CategoryAdapter(this, categorySubList, new CategoryAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                categorySubAdapter.setLastSelectedIndex(position);
+                categorySubAdapter.notifyDataSetChanged();
+                if(editcheck == 1){
+                    del.setVisibility(View.INVISIBLE);
+                    del.setClickable(false);
+                }
+                sublist = new ArrayList<ListItem>();
+                if(position == 1){
+                    if(tabselect == 1){
+                        for(int i = 0; i < list_1.size(); i++){
+                            if(list_1.get(i).getCategory() == "공지사항"){
+                                sublist.add(list_1.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 2){
+                        for(int i = 0; i < list_2.size(); i++){
+                            if(list_2.get(i).getCategory() == "공지사항"){
+                                sublist.add(list_2.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 3){
+                        for(int i = 0; i < list_3.size(); i++){
+                            if(list_3.get(i).getCategory() == "공지사항"){
+                                sublist.add(list_3.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 4){
+                        for(int i = 0; i < list_4.size(); i++){
+                            if(list_4.get(i).getCategory() == "공지사항"){
+                                sublist.add(list_4.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 5){
+                        for(int i = 0; i < list_5.size(); i++){
+                            if(list_5.get(i).getCategory() == "공지사항"){
+                                sublist.add(list_5.get(i));
+                            }
+                        }
+                    }
+                }
+                else if(position == 2){
+                    if(tabselect == 1){
+                        for(int i = 0; i < list_1.size(); i++){
+                            if(list_1.get(i).getCategory() == "취업"){
+                                sublist.add(list_1.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 2){
+                        for(int i = 0; i < list_2.size(); i++){
+                            if(list_2.get(i).getCategory() == "취업"){
+                                sublist.add(list_2.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 3){
+                        for(int i = 0; i < list_3.size(); i++){
+                            if(list_3.get(i).getCategory() == "취업"){
+                                sublist.add(list_3.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 4){
+                        for(int i = 0; i < list_4.size(); i++){
+                            if(list_4.get(i).getCategory() == "취업"){
+                                sublist.add(list_4.get(i));
+                            }
+                        }
+                    }
+                    else if(tabselect == 5){
+                        for(int i = 0; i < list_5.size(); i++){
+                            if(list_5.get(i).getCategory() == "취업"){
+                                sublist.add(list_5.get(i));
+                            }
+                        }
+                    }
+                }
+                container.removeAllViews();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                inflater.inflate(R.layout.container_layout, container, true);
+                sublistview = findViewById(R.id.list_container);
+                ladapter = new ListAdapter(StashActivity.this,sublist);
+                sublistview.setAdapter(ladapter);
+            }
+        });
         categorySubListView.setAdapter(categorySubAdapter);
     }
 
