@@ -71,4 +71,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             category = itemView.findViewById(R.id.category_title);
         }
     }
+
+    public void removeAll() {
+        categoryList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addItem(String item) {
+        categoryList.add(item);
+        notifyDataSetChanged();
+    }
 }

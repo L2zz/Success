@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private Button drawerCancelBtn, drawerConfirmBtn;
 
     private CategoryAdapter categoryAdapter, categorySubAdapter;
+    private ArrayAdapter drawerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setDrawer() {
         final String[] items = {"소프트웨어", "학사공지", "전자전기", "정보통신"};
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
-        drawerContent.setAdapter(adapter);
+        drawerAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_multiple_choice, items);
+        drawerContent.setAdapter(drawerAdapter);
 
         drawerContent.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -152,6 +155,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /* Set target sites */
+                SparseBooleanArray checkedItems = drawerContent.getCheckedItemPositions();
+                int count = drawerAdapter.getCount();
+                categoryAdapter.removeAll();
+                for (int i = 0; i < count; i++) {
+                    if (checkedItems.get(i)) {
+                        categoryAdapter.addItem(drawerAdapter.getItem(i).toString());
+                    }
+                }
                 drawer.closeDrawer(Gravity.RIGHT);
             }
         });
