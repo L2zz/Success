@@ -1,6 +1,8 @@
 package edu.skku.sw3.success;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +43,38 @@ public class SignUpActivity extends AppCompatActivity {
         final TextView pw_valid1 = findViewById(R.id.pw_valid1);
         final TextView pw_valid2 = findViewById(R.id.pw_valid2);
 
+        final CheckBox checkBox = findViewById(R.id.privacy_checkbox);
+
+        final Button privacy_button =findViewById(R.id.privacy_url_button);
 
 
 
 
+        // 개인정보 처리방침에 체크하면 -> Toast msg
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(checkBox.isChecked()){
+
+                    Toast.makeText(SignUpActivity.this, "개인정보 처리방침에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+        // 개인정보 처리방침 확인 url 버튼
+        privacy_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 개인정보 처리방침 페이지로 연결
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youngskku.blogspot.com/2019/05/project-2-mobile-app-for-skku-notice.html"));
+                startActivity(intent);
+
+            }
+        });
 
 
 
@@ -80,7 +111,12 @@ public class SignUpActivity extends AppCompatActivity {
                     pw_valid2.setText("");
                 }
 
-                if((tv_email.getText().toString().equals("")) && (pw_valid1.getText().toString().equals("")) && (pw_valid2.getText().toString().equals("")) ) {
+
+
+                // 정상 진행
+                if((tv_email.getText().toString().equals("")) && (pw_valid1.getText().toString().equals("")) && (pw_valid2.getText().toString().equals(""))
+                        && checkBox.isChecked()
+                ) {
 
                     // 서버와 통신해서 Sign up 해주기
 
@@ -115,9 +151,15 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 }
-                
+
+                // 예외처리
                 else{
-                    Toast.makeText(SignUpActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    if(!checkBox.isChecked()) // 개인정보 체크박크 unchecked -> 진행하지 않음
+                        Toast.makeText(SignUpActivity.this, "개인정보 처리방침에 동의해주세요.", Toast.LENGTH_LONG).show();
+                    else{
+                        Toast.makeText(SignUpActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
 
