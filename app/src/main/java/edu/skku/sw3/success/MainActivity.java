@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int pos) {
                         if (pos == 0) {
-
+                            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                            startActivity(intent);
                         } else {
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);

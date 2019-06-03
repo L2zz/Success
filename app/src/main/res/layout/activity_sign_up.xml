@@ -152,6 +152,19 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:background="@color/colorSample"
+            android:text="@string/sign_up_cancel"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/normal_txt_size"
+            android:textStyle="normal" />
+
+        <Button
             android:id="@+id/sign_up_button"
             style="?android:textAppearanceSmall"
             android:layout_width="0dp"
@@ -161,19 +174,6 @@
             android:layout_weight="1"
             android:background="@color/colorSample"
             android:text="@string/sign_up_confirm"
-            android:textColor="@android:color/background_light"
-            android:textSize="@dimen/normal_txt_size"
-            android:textStyle="normal" />
-
-        <Button
-            android:id="@+id/cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:background="@color/colorSample"
-            android:text="@string/sign_up_cancel"
             android:textColor="@android:color/background_light"
             android:textSize="@dimen/normal_txt_size"
             android:textStyle="normal" />

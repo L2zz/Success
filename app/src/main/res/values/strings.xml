@@ -22,6 +22,8 @@
     <string name="sign_up_cancel">취소</string>
     <string name="sign_up_confirm">확인</string>
 
+    <string name="user_title">개인정보 수정</string>
+
     <!-- Strings related to MainActivity -->
     <string name="main_drawer_title">알림 사이트 선택</string>
     <string name="main_drawer_cancel">취소</string>
