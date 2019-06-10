@@ -19,17 +19,25 @@ const getHtml = async() => {
   }
 };
 
-var db = admin.database();
-var articlesRef = db.ref("articles").push();
-articlesRef.set({
-  title: "Test",
-  url: "test"
-}, function(error) {
-  if (error) {
-    console.log("Data could not be saved.");
-  } else {
-    console.log("Data saved successfully.");
-    process.exit();
-  }
-});
+getHtml().then(html => {
+  let ulList = [];
+  const $ = cheerio.load(html.data);
+  const $bodyList = $("table.board_list tbody").children("tr");
+  var db = admin.database();
 
+  $bodyList.each(function(i, elm) {
+    var articlesRef = db.ref("articles").push();
+    articlesRef.set({
+      id: i,
+      title: $(this).find('td.left').text().replace(/(\s*)/g, ""),
+      url: $(this).find('td.left a').attr('href')
+    }, function(error) {
+      if (error) {
+        console.log("Data could not be saved.");
+      } else {
+        console.log("Data saved successfully.");
+        //process.exit();
+      }
+    });
+  });
+});
