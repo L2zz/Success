@@ -58,15 +58,15 @@ getHtml().then(html => {
     lastId = Number(snapshot.val());
     return lastId;
   }).then(function(lastId) {
-    if(lastId >= ulList[0].id) process.exit();
     console.log(lastId + " " + ulList[0].id);
+    if(lastId >= ulList[0].id) process.exit();
     var articleRef = db.ref("site/0/category/1/article").push();
-    lastRef.set(ulList[i].id);
+    lastRef.set(ulList[0].id);
     articleRef.set({
-      id: ulList[i].id,
-      title: ulList[i].title,
-      url: ulList[i].url,
-      date: ulList[i].date
+      id: ulList[0].id,
+      title: ulList[0].title,
+      url: ulList[0].url,
+      date: ulList[0].date
     }, function(error) {
       if (error) {
         console.log("Data could not be saved.");
