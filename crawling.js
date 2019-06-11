@@ -26,11 +26,39 @@ getHtml().then(html => {
   var db = admin.database();
 
   $bodyList.each(function(i, elm) {
-    var articlesRef = db.ref("articles").push();
+    var id_, title_, url_, date_;
+    const item = $(this).children("td").each(function (j, elm) {
+      switch (j) {
+        case 0:
+          id_ = Number($(this).text().replace(/(\s*)/g, ""));
+          break;
+        case 1:
+          title_ = $(this).text().replace(/(\s*)/g, "");
+          url_ = $(this).children('a').attr('href');
+          break;
+        case 2:
+          date_ = $(this).text().replace(/(\s*)/g, "");
+          break;
+        default:
+          break;
+      }
+    });
+    ulList[i] = {
+      id: id_,
+      title: title_,
+      url: url_,
+      date: date_
+    };
+  });
+  
+  ulList = ulList.reverse();
+  for (var i=0; i<ulList.length; i++) {
+    var articlesRef = db.ref("site/0/category/0/article").push();
     articlesRef.set({
-      id: i,
-      title: $(this).find('td.left').text().replace(/(\s*)/g, ""),
-      url: $(this).find('td.left a').attr('href')
+      id: ulList[i].id,
+      title: ulList[i].title,
+      url: ulList[i].url,
+      date: ulList[i].date
     }, function(error) {
       if (error) {
         console.log("Data could not be saved.");
@@ -38,6 +66,6 @@ getHtml().then(html => {
         console.log("Data saved successfully.");
         //process.exit();
       }
-    });
-  });
+    })
+  }
 });
