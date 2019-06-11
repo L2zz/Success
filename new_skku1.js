@@ -11,7 +11,7 @@ admin.initializeApp({
   databaseURL: 'https://success-f9291.firebaseio.com'
 });
 
-const site = "https://www.skku.edu/skku/campus/skk_comm/notice05.do?mode=list&&articleLimit=10&article.offset=0"
+const site = "https://www.skku.edu/skku/campus/skk_comm/notice02.do"
 const getHtml = async() => {
   try {
     return await axios.get(site);
@@ -52,30 +52,28 @@ getHtml().then(html => {
     };
   });
   
-  ulList = ulList.reverse();
-  var lastRef = db.ref("site/0/category/4/last");
+  var lastRef = db.ref("site/0/category/1/last");
   var lastId;
   lastRef.once('value').then(function(snapshot) {
     lastId = Number(snapshot.val());
     return lastId;
   }).then(function(lastId) {
-    for (var i=0; i<ulList.length; i++) {
-      if(lastId >= ulList[i].id) continue;
-      console.log(lastId + " " + ulList[i].id);
-      var articleRef = db.ref("site/0/category/4/article").push();
-      lastRef.set(ulList[i].id);
-      articleRef.set({
-        id: ulList[i].id,
-        title: ulList[i].title,
-        url: ulList[i].url,
-        date: ulList[i].date
-      }, function(error) {
-        if (error) {
-          console.log("Data could not be saved.");
-        } else {
-          console.log("Data saved successfully.");
-        }
-      })
-    }
+    if(lastId >= ulList[0].id) process.exit();
+    console.log(lastId + " " + ulList[0].id);
+    var articleRef = db.ref("site/0/category/1/article").push();
+    lastRef.set(ulList[i].id);
+    articleRef.set({
+      id: ulList[i].id,
+      title: ulList[i].title,
+      url: ulList[i].url,
+      date: ulList[i].date
+    }, function(error) {
+      if (error) {
+        console.log("Data could not be saved.");
+      } else {
+        console.log("Data saved successfully.");
+        process.exit();
+      }
+    })
   });
 });
