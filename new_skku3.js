@@ -58,8 +58,8 @@ getHtml().then(html => {
     lastId = Number(snapshot.val());
     return lastId;
   }).then(function(lastId) {
-    console.log(lastId + " " + ulList[0].id);
     if(lastId >= ulList[0].id) process.exit();
+    console.log(lastId + " " + ulList[0].id);
     var articleRef = db.ref("site/0/category/3/article").push();
     lastRef.set(ulList[0].id);
     articleRef.set({

@@ -12,7 +12,7 @@ admin.initializeApp({
 });
 
 const site = "http://icc.skku.ac.kr/icc_new/"
-const compSite =  site + "board_list_square?listPage=1&boardName=board_notice&field=subject&keyword="
+const compSite =  site + "board_list_square?listPage=1&boardName=board_recruit&field=subject&keyword="
 const getHtml = async() => {
   try {
     return await axios.get(compSite);
@@ -35,11 +35,11 @@ getHtml().then(html => {
         case 0:
           id_ = Number($(this).text().replace(/(\s*)/g, ""));
           break;
-        case 2:
+        case 1:
           title_ = $(this).text().replace(/(\s*)/g, "");
           url_ = site + $(this).children('a').attr('href');
           break;
-        case 4:
+        case 3:
           date_ = $(this).text().replace(/(\s*)/g, "");
           break;
         default:
@@ -56,7 +56,7 @@ getHtml().then(html => {
   });
   
   ulList = ulList.reverse();
-  var lastRef = db.ref("site/1/category/0/last");
+  var lastRef = db.ref("site/1/category/3/last");
   var lastId;
   lastRef.once('value').then(function(snapshot) {
     lastId = Number(snapshot.val());
@@ -65,7 +65,7 @@ getHtml().then(html => {
     for (var i=0; i<ulList.length; i++) {
       if(lastId >= ulList[i].id) continue;
       console.log(lastId + " " + ulList[i].id);
-      var articleRef = db.ref("site/1/category/0/article").push();
+      var articleRef = db.ref("site/1/category/3/article").push();
       lastRef.set(ulList[i].id);
       articleRef.set({
         id: ulList[i].id,

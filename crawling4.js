@@ -11,10 +11,11 @@ admin.initializeApp({
   databaseURL: 'https://success-f9291.firebaseio.com'
 });
 
-const site = "https://www.skku.edu/skku/campus/skk_comm/notice05.do"
+const site = "https://skb.skku.edu/enc/community/total_notice.do"
+const compSite = site + "?mode=list&&articleLimit=10&srCategoryId1=235&article.offset=0"
 const getHtml = async() => {
   try {
-    return await axios.get(site);
+    return await axios.get(compSite);
   } catch(error) {
     console.log(error);
   }
@@ -23,19 +24,18 @@ const getHtml = async() => {
 getHtml().then(html => {
   let ulList = [];
   const $ = cheerio.load(html.data);
-  const $bodyList = $("table.board_list tbody").children("tr");
+  const $bodyList = $("ul.board-list-wrap").find("dl.board-list-content-wrap");
   var db = admin.database();
 
   $bodyList.each(function(i, elm) {
     var id_, title_, url_, date_;
-    const item = $(this).children("td").each(function (j, elm) {
+    title_ = $(this).find("dt.board-list-content-title").text().replace(/(\s*)/g, "");
+    url_ = site + $(this).find("dt.board-list-content-title a").attr("href");
+    const item = $(this).find("li").each(function (j, elm) {
       switch (j) {
         case 0:
-          id_ = Number($(this).text().replace(/(\s*)/g, ""));
-          break;
-        case 1:
-          title_ = $(this).text().replace(/(\s*)/g, "");
-          url_ = site + $(this).children('a').attr('href');
+          id_ = $(this).text().replace(/(\s*)/g, "").split('.');
+          id_ = Number(id_[1]);
           break;
         case 2:
           date_ = $(this).text().replace(/(\s*)/g, "");
@@ -52,28 +52,30 @@ getHtml().then(html => {
     };
   });
   
-  var lastRef = db.ref("site/0/category/4/last");
+  ulList = ulList.reverse();
+  var lastRef = db.ref("site/3/category/2/last");
   var lastId;
   lastRef.once('value').then(function(snapshot) {
     lastId = Number(snapshot.val());
     return lastId;
   }).then(function(lastId) {
-    if(lastId >= ulList[0].id) process.exit();
-    console.log(lastId + " " + ulList[0].id);
-    var articleRef = db.ref("site/0/category/4/article").push();
-    lastRef.set(ulList[0].id);
-    articleRef.set({
-      id: ulList[0].id,
-      title: ulList[0].title,
-      url: ulList[0].url,
-      date: ulList[0].date
-    }, function(error) {
-      if (error) {
-        console.log("Data could not be saved.");
-      } else {
-        console.log("Data saved successfully.");
-        process.exit();
-      }
-    })
+    for (var i=0; i<ulList.length; i++) {
+      if(lastId >= ulList[i].id) continue;
+      console.log(lastId + " " + ulList[i].id);
+      var articleRef = db.ref("site/3/category/2/article").push();
+      lastRef.set(ulList[i].id);
+      articleRef.set({
+        id: ulList[i].id,
+        title: ulList[i].title,
+        url: ulList[i].url,
+        date: ulList[i].date
+      }, function(error) {
+        if (error) {
+          console.log("Data could not be saved.");
+        } else {
+          console.log("Data saved successfully.");
+        }
+      })
+    }
   });
 });
