@@ -98,15 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "로그인 하였습니다.", Toast.LENGTH_SHORT).show();
+                            mEmailView.setText("");
+                            mPasswordView.setText("");
 
                             // Go to MainActivity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-
-                            String user_email = input_email;
-                            intent.putExtra("user_email", user_email); // 다음 acticity 로 user_email 전달
-
                             startActivity(intent);
-
 
                         } else {
                             // If sign in fails, display a message to the user.
