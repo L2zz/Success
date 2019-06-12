@@ -30,8 +30,4 @@
     <!--String related to StashActivity-->
     <string name="stash_title">보관함</string>
     <string name="delete">삭제하기</string>
-
-
-
-
 </resources>
