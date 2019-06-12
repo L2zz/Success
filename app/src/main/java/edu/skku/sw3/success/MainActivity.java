@@ -2,8 +2,10 @@ package edu.skku.sw3.success;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +35,7 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private EditText searchEdit;
     private ImageButton logoutBtn, searchBtn, draftBtn, setBtn;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TabAdapter siteAdapter, categoryAdapter;
     private DrawerSiteAdapter drawerAdapter;
     private LoadingDialog loadingDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private FirebaseAuth mAuth;
     private FirebaseUser curUser;
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         drawerSiteListView = findViewById(R.id.main_drawer_site_list);
         drawerCancelBtn = findViewById(R.id.main_drawer_cancel_btn);
         drawerConfirmBtn = findViewById(R.id.main_drawer_confirm_btn);
+
+        swipeRefreshLayout = findViewById(R.id.main_swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         mAuth = FirebaseAuth.getInstance();
         curUser = mAuth.getCurrentUser();
@@ -186,6 +192,40 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new ListAdapter(this, mainItemList);
         mainContent.setAdapter(mainAdapter);
 
+        mainContent.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("보관함에 추가");
+                builder.setCancelable(false);
+                builder.setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String key = mDatabase.child("user/"+curUser.getUid()+"/stash/").push().getKey();
+                                mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/siteKey/").setValue(curSite.getId());
+                                mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/categoryKey/").setValue(curCategory.getId());
+                                mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/articleKey/").setValue(mainItemList.get(position).getItemKey());
+                            }
+                        });
+                builder.setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                builder.show();
+                return true;
+            }
+        });
+
+        mainContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mainItemList.get(position).getItemURL()));
+                startActivity(intent);
+            }
+        });
+
         mDatabase.child("site/"+curSite.getId()+"/category/"+curCategory.getId()+"/article/")
                 .addListenerForSingleValueEvent(articleListener);
     }
@@ -279,7 +319,8 @@ public class MainActivity extends AppCompatActivity {
                 mainAdapter.addItem(0, new ListItem(
                         data.child("title").getValue(String.class),
                         data.child("date").getValue(String.class),
-                        data.child("url").getValue(String.class)
+                        data.child("url").getValue(String.class),
+                        data.getKey()
                 ));
             }
 
@@ -313,7 +354,8 @@ public class MainActivity extends AppCompatActivity {
                                 mainAdapter.addItem(0, new ListItem(
                                         article.child("title").getValue(String.class),
                                         article.child("date").getValue(String.class),
-                                        article.child("url").getValue(String.class)
+                                        article.child("url").getValue(String.class),
+                                        article.getKey()
                                 ));
                             }
                         }
@@ -379,4 +421,10 @@ public class MainActivity extends AppCompatActivity {
                     ))
             )
     );
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        setCategory(curCategory);
+    }
 }

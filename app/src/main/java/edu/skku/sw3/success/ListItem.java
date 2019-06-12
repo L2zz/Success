@@ -6,21 +6,24 @@ public class ListItem {
     private String MainCategory;
     private String SubCategory;
     private String ItemURL;
+    private String itemKey;
 
     public ListItem() {}
 
-    public ListItem(String Title, String Date, String MainCategory, String SubCategory, String ItemURL){
+    public ListItem(String Title, String Date, String MainCategory, String SubCategory, String ItemURL, String itemKey){
         this.Title = Title;
         this.Date = Date;
         this.MainCategory = MainCategory;
         this.SubCategory = SubCategory;
         this.ItemURL = ItemURL;
+        this.itemKey = itemKey;
     }
 
-    public ListItem(String title, String date, String itemURL) {
+    public ListItem(String title, String date, String itemURL, String itemKey) {
         Title = title;
         Date = date;
         ItemURL = itemURL;
+        this.itemKey = itemKey;
         MainCategory = "";
         SubCategory = "";
     }
@@ -53,5 +56,13 @@ public class ListItem {
 
     public void setItemURL(String itemURL) {
         ItemURL = itemURL;
+    }
+
+    public String getItemKey() {
+        return itemKey;
+    }
+
+    public void setItemKey(String itemKey) {
+        this.itemKey = itemKey;
     }
 }

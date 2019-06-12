@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -237,7 +238,7 @@ public class StashActivity extends AppCompatActivity {
                     maincategory = get.MainCategory;
                     itemURL = get.ItemURL;
                     if(maincategory.equals(categoryList.get(tabselect-1))){
-                        LItem = new ListItem(title, date, maincategory, subcategory, itemURL);
+                        LItem = new ListItem(title, date, itemURL, new String());
                         if(!mainstashlist.contains(LItem)) {
                             mainstashlist.add(LItem);
                         }
@@ -317,4 +318,47 @@ public class StashActivity extends AppCompatActivity {
         };
         mPostReference.child("stash_items/"+ID).addListenerForSingleValueEvent(CategoryListener);
     }
+
+    private final ArrayList<Site> availSiteList = new ArrayList<>(
+            Arrays.asList(
+                    new Site(0, "성균관대학교", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체"),
+                                    new Category(1, "학사"),
+                                    new Category(2, "입학"),
+                                    new Category(3, "취업"),
+                                    new Category(4, "채용/모집")
+                            )
+                    )),
+                    new Site(1, "정보통신대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "공지사항"),
+                                    new Category(1, "세미나공지"),
+                                    new Category(2, "취업정보")
+                            )
+                    )),
+                    new Site(2, "반도체시스템", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "공지사항")
+                            )
+                    )),
+                    new Site(3, "공과대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체"),
+                                    new Category(1, "학사"),
+                                    new Category(2, "채용/모집")
+                            )
+                    )),
+                    new Site(4, "문과대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체")
+                            )
+                    )),
+                    new Site(5, "자연과학대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체")
+                            )
+                    ))
+            )
+    );
 }
