@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signIn_with_EmailAndPW(final String input_email, final String input_password)
     {
-        Toast.makeText(this, "로그인 시도 중 ..", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "로그인 시도 중 ..", Toast.LENGTH_SHORT).show();
 
 
         mAuth.signInWithEmailAndPassword(input_email, input_password)
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "로그인 하였습니다.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, "로그인 하였습니다.", Toast.LENGTH_SHORT).show();
                             mEmailView.setText("");
                             mPasswordView.setText("");
 

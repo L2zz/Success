@@ -81,4 +81,9 @@ public class TabAdapter extends RecyclerView.Adapter<TabAdapter.ViewHolder> {
         tabList.add(item);
         notifyDataSetChanged();
     }
+
+    public void addItem(int pos, String item) {
+        tabList.add(pos, item);
+        notifyDataSetChanged();
+    }
 }

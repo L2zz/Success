@@ -36,13 +36,21 @@ public class ListAdapter extends BaseAdapter {
         ListItem item = items.get(i);
 
         TextView tv1 = (TextView)view.findViewById(R.id.title_tv);
-        TextView tv2 = (TextView)view.findViewById(R.id.category_tv);
         TextView tv3 = (TextView)view.findViewById(R.id.date_tv);
 
         tv1.setText(item.getTitle());
-        tv2.setText(item.getMainCategory());
         tv3.setText(item.getDate());
 
         return  view;
+    }
+
+    public void addItem(ListItem item) {
+        items.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(int pos, ListItem item) {
+        items.add(pos, item);
+        notifyDataSetChanged();
     }
 }

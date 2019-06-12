@@ -17,6 +17,14 @@ public class ListItem {
         this.ItemURL = ItemURL;
     }
 
+    public ListItem(String title, String date, String itemURL) {
+        Title = title;
+        Date = date;
+        ItemURL = itemURL;
+        MainCategory = "";
+        SubCategory = "";
+    }
+
     public String getTitle() {return Title;}
 
     public String getDate() {return Date;}

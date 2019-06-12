@@ -155,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     else {
 
                                         // 회원가입 진행
-                                        Toast.makeText(SignUpActivity.this, "회원가입 시도 중 ..", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(SignUpActivity.this, "회원가입 시도 중 ..", Toast.LENGTH_SHORT).show();
 
                                         SignUp(input_email_global, input_password_global);
 
@@ -190,7 +190,7 @@ public class SignUpActivity extends AppCompatActivity {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
             }
         });
     }
