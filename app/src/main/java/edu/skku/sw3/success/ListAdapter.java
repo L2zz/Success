@@ -1,6 +1,9 @@
 package edu.skku.sw3.success;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,18 +31,27 @@ public class ListAdapter extends BaseAdapter {
     public long getItemId(int i){return i;}
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup){
+    public View getView(int i, View view, final ViewGroup viewGroup){
         if(view == null){
             view = inflater.inflate(R.layout.list_layout, viewGroup, false);
         }
 
-        ListItem item = items.get(i);
+        final ListItem item = items.get(i);
 
         TextView tv1 = (TextView)view.findViewById(R.id.title_tv);
         TextView tv3 = (TextView)view.findViewById(R.id.date_tv);
+        ConstraintLayout bg = view.findViewById(R.id.list_bg);
 
         tv1.setText(item.getTitle());
         tv3.setText(item.getDate());
+
+        bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getItemURL()));
+                viewGroup.getContext().startActivity(intent);
+            }
+        });
 
         return  view;
     }
