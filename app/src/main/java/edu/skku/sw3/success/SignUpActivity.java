@@ -2,7 +2,6 @@ package edu.skku.sw3.success;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -94,8 +92,11 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // 개인정보 처리방침 페이지로 연결
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qpxhqpsll.blog.me/221560029594"));
+                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qpxhqpsll.blog.me/221560029594"));
+
+                Intent intent = new Intent(getApplicationContext(), PrivacyPolicyActivity.class);
                 startActivity(intent);
+
 
             }
         });
@@ -217,7 +218,37 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SignUpActivity.this);
+
+                // 제목셋팅
+                dialog.setTitle("회원가입 취소");
+
+                // AlertDialog 셋팅
+                dialog
+                        .setMessage("회원가입을 취소하시겠습니까?")
+                        .setCancelable(false) //
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
+
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                dialog.create();
+                dialog.show(); // 알림창 보여주기
+
+
+
+
 
             }
         });
