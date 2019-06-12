@@ -1,9 +1,11 @@
 package edu.skku.sw3.success;
 
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class PasswordActivity extends AppCompatActivity {
+
+    private String TAG = "PasswordActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +61,32 @@ public class PasswordActivity extends AppCompatActivity {
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // 서버와 통신해서 회원가입 실행
+                                    // 서버와 통신해서 비밀번호 찾기 실행
 
-                                    Toast.makeText(PasswordActivity.this, "이메일 발송 완료", Toast.LENGTH_SHORT).show();
+                                    // Firebase
+
+                                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                                    String emailAddress = et_email.getText().toString();
+
+                                    Toast.makeText(PasswordActivity.this, "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
+
+                                    auth.sendPasswordResetEmail(emailAddress)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "Email sent.");
+                                                        Toast.makeText(PasswordActivity.this, "비밀번호 재설정 이메일을 발송하였습니다.", Toast.LENGTH_LONG).show();
+                                                    } else {
+
+                                                        Toast.makeText(PasswordActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                }
+                                            });
+
+
+                                    //  Toast.makeText(PasswordActivity.this, "이메일 발송 완료", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             })
@@ -67,8 +98,6 @@ public class PasswordActivity extends AppCompatActivity {
                             });
                     dialog.create();
                     dialog.show(); // 알림창 보여주기
-
-
 
 
                 }
@@ -88,8 +117,6 @@ public class PasswordActivity extends AppCompatActivity {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // 서버와 통신해서 Sign up 해주기
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(PasswordActivity.this);
 

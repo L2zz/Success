@@ -68,7 +68,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/sign_up_vertical_space"
+        android:layout_marginTop="28dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="●●●●●●●●"
+            android:hint="6자리 이상 입력"
             android:imeActionId="6"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
@@ -106,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/sign_up_vertical_space"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="●●●●●●●●"
+            android:hint="동일하게 입력"
             android:imeActionId="6"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
@@ -145,7 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="268dp"
+        android:layout_marginBottom="272dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -220,5 +220,42 @@
         app:layout_constraintHorizontal_bias="0.631"
         app:layout_constraintStart_toStartOf="@+id/email_edit_container"
         app:layout_constraintTop_toBottomOf="@+id/password_top_bar" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="68dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwd_confirm_edit_container">
+
+        <CheckBox
+            android:id="@+id/privacy_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="20dp"
+            android:text="개인정보 처리방침에 동의함"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="612dp" />
+
+        <Button
+            android:id="@+id/privacy_url_button"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorSample"
+            android:text="처리방침 확인하러 가기"
+            android:textColor="@android:color/background_light"
+            android:textSize="10dp"
+
+            />
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
