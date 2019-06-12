@@ -75,7 +75,7 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/main_store_btn"
+                android:id="@+id/main_draft_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -103,7 +103,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_category_container"
+            android:id="@+id/main_tab_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
@@ -114,7 +114,7 @@
             app:layout_constraintTop_toBottomOf="@+id/main_top_bar">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_category"
+                android:id="@+id/main_site_tab"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_bar_height"
                 android:layout_weight="1"
@@ -122,7 +122,7 @@
                 android:scrollbars="none" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_category_sub"
+                android:id="@+id/main_category_tab"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_bar_height"
                 android:layout_weight="1"
@@ -138,7 +138,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_category_container" />
+            app:layout_constraintTop_toBottomOf="@id/main_tab_container" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -163,7 +163,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
-            android:id="@+id/main_drawer_content"
+            android:id="@+id/main_drawer_site_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:choiceMode="multipleChoice"

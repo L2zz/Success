@@ -40,7 +40,7 @@ public class ListAdapter extends BaseAdapter {
         TextView tv3 = (TextView)view.findViewById(R.id.date_tv);
 
         tv1.setText(item.getTitle());
-        tv2.setText(item.getCategory());
+        tv2.setText(item.getMainCategory());
         tv3.setText(item.getDate());
 
         return  view;

@@ -20,20 +20,68 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText searchEdit;
-    private ImageButton userBtn, searchBtn, storeBtn, setBtn;
-    private RecyclerView categoryListView, categorySubListView;
+    private ImageButton userBtn, searchBtn, draftBtn, setBtn;
+    private RecyclerView siteListView, categoryListView;
     private ListView mainContent;
 
     private DrawerLayout drawer;
-    private ListView drawerContent;
+    private ListView drawerSiteListView;
     private Button drawerCancelBtn, drawerConfirmBtn;
 
-    private CategoryAdapter categoryAdapter, categorySubAdapter;
+    private TabAdapter siteAdapter, categoryAdapter;
     private ArrayAdapter drawerAdapter;
+
+    private ArrayList<String> userSiteList;
+    private Site curSite;
+    private Category curCategory;
+
+    private final ArrayList<Site> availSiteList = new ArrayList<>(
+            Arrays.asList(
+                    new Site(0, "성균관대학교", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체"),
+                                    new Category(1, "학사"),
+                                    new Category(2, "입학"),
+                                    new Category(3, "취업"),
+                                    new Category(4, "채용/모집")
+                            )
+                    )),
+                    new Site(1, "정보통신대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "공지사항"),
+                                    new Category(1, "세미나공지"),
+                                    new Category(2, "취업정보")
+                            )
+                    )),
+                    new Site(2, "반도체시스템", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "공지사항")
+                            )
+                    )),
+                    new Site(3, "공과대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체"),
+                                    new Category(1, "학사"),
+                                    new Category(2, "채용/모집")
+                            )
+                    )),
+                    new Site(4, "문과대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체")
+                            )
+                    )),
+                    new Site(5, "자연과학대학", new ArrayList<>(
+                            Arrays.asList(
+                                    new Category(0, "전체")
+                            )
+                    ))
+            )
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +91,18 @@ public class MainActivity extends AppCompatActivity {
         userBtn = findViewById(R.id.main_user_btn);
         searchEdit = findViewById(R.id.main_search_edit);
         searchBtn = findViewById(R.id.main_search_btn);
-        storeBtn = findViewById(R.id.main_store_btn);
+        draftBtn = findViewById(R.id.main_draft_btn);
         setBtn = findViewById(R.id.main_set_btn);
-        categoryListView = findViewById(R.id.main_category);
-        categorySubListView = findViewById(R.id.main_category_sub);
+        siteListView = findViewById(R.id.main_site_tab);
+        categoryListView = findViewById(R.id.main_category_tab);
         mainContent = findViewById(R.id.main_content_list);
         drawer = findViewById(R.id.main_container);
-        drawerContent = findViewById(R.id.main_drawer_content);
+        drawerSiteListView = findViewById(R.id.main_drawer_site_list);
         drawerCancelBtn = findViewById(R.id.main_drawer_cancel_btn);
         drawerConfirmBtn = findViewById(R.id.main_drawer_confirm_btn);
 
-        initCategory();
-        setDrawer();
+        initSite();
+        initDrawer();
 
         userBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        storeBtn.setOnClickListener(new View.OnClickListener() {
+        draftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), StashActivity.class);
@@ -87,58 +135,86 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initSite() {
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        siteListView.setLayoutManager(layoutManager);
+
+        // =========== For test ============= //
+        userSiteList = new ArrayList<>();
+        userSiteList.add("소프트웨어");
+        userSiteList.add("학사 공지");
+        userSiteList.add("정보통신대학");
+        userSiteList.add("성균관대 공홈");
+        userSiteList.add("학생지원팀");
+        userSiteList.add("전자전기");
+        // =========== For test ============= //
+
+        // TODO:
+        // DB에서 Favorite site 불러오기
+        try {
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        ////////////////////////////////////////
+
+        siteAdapter = new TabAdapter(this, userSiteList, new TabAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                siteAdapter.setLastSelectedIndex(position);
+                siteAdapter.notifyDataSetChanged();
+                setSite(userSiteList.get(position));
+            }
+        });
+        siteListView.setAdapter(siteAdapter);
+    }
+
+    private void setSite(String siteTitle) {
+        for (Site site: availSiteList) {
+            if (site.getTitle() == siteTitle) {
+                curSite = site;
+                break;
+            }
+        }
+        initCategory();
+    }
+
     private void initCategory() {
+        categoryListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoryListView.setLayoutManager(layoutManager);
 
-        ArrayList<String> categoryList = new ArrayList<>();
-        categoryList.add("소프트웨어");
-        categoryList.add("학사 공지");
-        categoryList.add("정보통신대학");
-        categoryList.add("성균관대 공홈");
-        categoryList.add("학생지원팀");
-        categoryList.add("전자전기");
+        final ArrayList<String> categoryList = new ArrayList<>();
+        for (Category category: curSite.getCategories()) {
+            categoryList.add(category.getTitle());
+        }
 
-        categoryAdapter = new CategoryAdapter(this, categoryList, new CategoryAdapter.CategoryOnClickListener() {
+        categoryAdapter = new TabAdapter(this, categoryList, new TabAdapter.CategoryOnClickListener() {
             @Override
             public void onCategoryClicked(int position) {
                 categoryAdapter.setLastSelectedIndex(position);
                 categoryAdapter.notifyDataSetChanged();
-                initSubCategory(position);
+                setCategory(curSite.getCategories().get(position));
             }
         });
         categoryListView.setAdapter(categoryAdapter);
     }
 
-    private void initSubCategory(int pos) {
-        categorySubListView.setVisibility(View.VISIBLE);
-        LinearLayoutManager layoutManager =
-                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        categorySubListView.setLayoutManager(layoutManager);
-
-        // Get sub category using pos
-        ArrayList<String> categorySubList = new ArrayList<>();
-        categorySubList.add("취업");
-        categorySubList.add("공지사항");
-
-        categorySubAdapter = new CategoryAdapter(this, categorySubList, new CategoryAdapter.CategoryOnClickListener() {
-            @Override
-            public void onCategoryClicked(int position) {
-                categorySubAdapter.setLastSelectedIndex(position);
-                categorySubAdapter.notifyDataSetChanged();
-            }
-        });
-        categorySubListView.setAdapter(categorySubAdapter);
+    private void setCategory(Category targetCategory) {
+        curCategory = targetCategory;
+        // TODO:
+        // DB에서 category에 해당하는 articles 불러오기
+        ////////////////////////////////////////////////
     }
 
-    private void setDrawer() {
-        final String[] items = {"소프트웨어", "학사공지", "전자전기", "정보통신"};
+    private void initDrawer() {
         drawerAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_multiple_choice, items);
-        drawerContent.setAdapter(drawerAdapter);
+                android.R.layout.simple_list_item_multiple_choice, availSiteList);
+        drawerSiteListView.setAdapter(drawerAdapter);
 
-        drawerContent.setOnItemClickListener(new ListView.OnItemClickListener() {
+        drawerSiteListView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), new Integer(position).toString(), Toast.LENGTH_SHORT).show();
@@ -155,13 +231,14 @@ public class MainActivity extends AppCompatActivity {
         drawerConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Set target sites */
-                SparseBooleanArray checkedItems = drawerContent.getCheckedItemPositions();
+                SparseBooleanArray checkedItems = drawerSiteListView.getCheckedItemPositions();
                 int count = drawerAdapter.getCount();
-                categoryAdapter.removeAll();
+
+                //
+                siteAdapter.removeAll();
                 for (int i = 0; i < count; i++) {
                     if (checkedItems.get(i)) {
-                        categoryAdapter.addItem(drawerAdapter.getItem(i).toString());
+                        siteAdapter.addItem(drawerAdapter.getItem(i).toString());
                     }
                 }
                 drawer.closeDrawer(Gravity.RIGHT);
