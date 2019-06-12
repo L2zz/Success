@@ -250,7 +250,7 @@
             android:layout_marginLeft="30dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
-            android:text="처리방침 확인하러 가기"
+            android:text="개인정보 처리방침 안내문"
             android:textColor="@android:color/background_light"
             android:textSize="10dp"
 

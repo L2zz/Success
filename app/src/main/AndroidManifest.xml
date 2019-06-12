@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PasswordActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity"></activity>
+        <activity android:name=".PasswordActivity" />
         <activity android:name=".StashActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity">
