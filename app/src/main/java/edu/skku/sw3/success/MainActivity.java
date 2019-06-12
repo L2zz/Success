@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
@@ -142,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
 
         // =========== For test ============= //
         userSiteList = new ArrayList<>();
-        userSiteList.add("소프트웨어");
-        userSiteList.add("학사 공지");
+        userSiteList.add("성균관대학교");
         userSiteList.add("정보통신대학");
-        userSiteList.add("성균관대 공홈");
-        userSiteList.add("학생지원팀");
-        userSiteList.add("전자전기");
+        userSiteList.add("반도체시스템");
+        userSiteList.add("공과대학");
+        userSiteList.add("문과대학");
+        userSiteList.add("자연과학대학");
         // =========== For test ============= //
 
         // TODO:
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setSite(String siteTitle) {
         for (Site site: availSiteList) {
-            if (site.getTitle() == siteTitle) {
+            if (site.getTitle().equals(siteTitle)) {
                 curSite = site;
                 break;
             }
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoryListView.setLayoutManager(layoutManager);
 
-        final ArrayList<String> categoryList = new ArrayList<>();
+        ArrayList<String> categoryList = new ArrayList<>();
         for (Category category: curSite.getCategories()) {
             categoryList.add(category.getTitle());
         }
