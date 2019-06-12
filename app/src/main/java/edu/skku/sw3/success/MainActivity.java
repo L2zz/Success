@@ -105,6 +105,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mainItemList = new ArrayList<>();
+                mainAdapter = new ListAdapter(MainActivity.this, mainItemList);
+                mainContent.setAdapter(mainAdapter);
+
+                mDatabase.child("site/").addListenerForSingleValueEvent(searchListener);
+            }
+        });
+
         draftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new ListAdapter(this, mainItemList);
         mainContent.setAdapter(mainAdapter);
 
-        Log.d("Test", "site/"+curSite.getId()+"/category/"+curCategory.getId()+"/article/");
         mDatabase.child("site/"+curSite.getId()+"/category/"+curCategory.getId()+"/article/")
                 .addListenerForSingleValueEvent(articleListener);
     }
@@ -272,6 +283,44 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (loadingDialog.isShowing()) loadingDialog.dismiss();
+                }
+            };
+            timer.schedule(timerTask, 500);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private ValueEventListener searchListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            loadingDialog = new LoadingDialog(MainActivity.this);
+            if (!loadingDialog.isShowing()) loadingDialog.show();
+            if (searchEdit.getText().toString().replaceAll(" ", "").length() != 0) {
+                for (DataSnapshot site: dataSnapshot.getChildren()) {
+                    for (DataSnapshot category: site.child("category").getChildren()) {
+                        for (DataSnapshot article: category.child("article").getChildren()) {
+                            if (article.child("title").getValue(String.class).toLowerCase().
+                                    contains(searchEdit.getText().toString().toLowerCase())) {
+                                mainAdapter.addItem(0, new ListItem(
+                                        article.child("title").getValue(String.class),
+                                        article.child("date").getValue(String.class),
+                                        article.child("url").getValue(String.class)
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+            searchEdit.setText("");
             Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
