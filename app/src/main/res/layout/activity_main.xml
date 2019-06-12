@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/main_user_btn"
+                android:id="@+id/main_logout_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/user_btn" />
+                app:srcCompat="@drawable/logout_btn" />
 
             <LinearLayout
                 android:id="@+id/main_search_container"

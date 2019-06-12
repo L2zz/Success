@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
@@ -20,13 +19,15 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText searchEdit;
-    private ImageButton userBtn, searchBtn, draftBtn, setBtn;
+    private ImageButton logoutBtn, searchBtn, draftBtn, setBtn;
     private RecyclerView siteListView, categoryListView;
     private ListView mainContent;
 
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userBtn = findViewById(R.id.main_user_btn);
+        logoutBtn = findViewById(R.id.main_logout_btn);
         searchEdit = findViewById(R.id.main_search_edit);
         searchBtn = findViewById(R.id.main_search_btn);
         draftBtn = findViewById(R.id.main_draft_btn);
@@ -105,24 +106,25 @@ public class MainActivity extends AppCompatActivity {
         initSite();
         initDrawer();
 
-        userBtn.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String[] items = getResources().getStringArray(R.array.user_btn_operation);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("계정관리");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int pos) {
-                        if (pos == 0) {
-                            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
+                builder.setTitle("로그아웃");
+                builder.setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseAuth.getInstance().signOut();
+                                finish();
+                            }
+                        });
+                builder.setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
                 builder.show();
             }
         });

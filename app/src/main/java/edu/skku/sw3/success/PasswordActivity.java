@@ -124,11 +124,9 @@ public class PasswordActivity extends AppCompatActivity {
                 dialog
                         .setMessage("비밀번호 찾기를 취소할까요?")
                         .setCancelable(false) //
-                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // 서버와 통신해서 회원가입 실행
-
                                 Toast.makeText(PasswordActivity.this, "비밀번호 찾기 취소", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
