@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FBA753</color>
+    <color name="colorPrimaryDark">#FC934F</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorLightGray">#E7E7E7</color>
     <color name="colorBlurredWhite">#DDFFFFFF</color>
-
-    <!--Sample Colors for application theme-->
-    <!--Yellow-->
-    <!--<color name="colorSample">#F89B00</color>-->
-
-    <!--Orange-->
-    <color name="colorSample">#FBA753</color>
-    <!--<color name="colorSample">#FF5722</color>-->
-
-    <!--Pink-->
-    <!--<color name="colorSample">#FCBDE1</color>-->
-
-    <!--Blue-->
-    <!--<color name="colorSample">#8BC9FF</color>-->
 </resources>
