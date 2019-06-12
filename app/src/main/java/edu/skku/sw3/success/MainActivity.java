@@ -30,11 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton logoutBtn, searchBtn, draftBtn, setBtn;
     private RecyclerView siteListView, categoryListView;
     private ListView mainContent;
-
     private DrawerLayout drawer;
     private ListView drawerSiteListView;
     private Button drawerCancelBtn, drawerConfirmBtn;
-
     private TabAdapter siteAdapter, categoryAdapter;
     private ArrayAdapter drawerAdapter;
 
