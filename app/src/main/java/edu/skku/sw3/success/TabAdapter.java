@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-    private ArrayList<String> categoryList;
+public class TabAdapter extends RecyclerView.Adapter<TabAdapter.ViewHolder> {
+    private ArrayList<String> tabList;
     private Context context;
     private Integer lastSelectedIndex;
     private CategoryOnClickListener categoryOnClickListener;
 
-    public CategoryAdapter(Context context, ArrayList<String> categoryList, CategoryOnClickListener onClickListener) {
-        this.categoryList = categoryList;
+    public TabAdapter(Context context, ArrayList<String> tabList, CategoryOnClickListener onClickListener) {
+        this.tabList = tabList;
         this.context = context;
         this.categoryOnClickListener = onClickListener;
     }
@@ -28,34 +28,34 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @NonNull
     @Override
-    public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TabAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_category, viewGroup, false);
+                .inflate(R.layout.item_tab, viewGroup, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull TabAdapter.ViewHolder viewHolder, int i) {
         final int pos = i;
-        String categoryTitle = categoryList.get(i);
+        String categoryTitle = tabList.get(i);
 
-        viewHolder.category.setText(categoryTitle);
-        viewHolder.category.setTag(categoryTitle);
-        viewHolder.category.setOnClickListener(new View.OnClickListener() {
+        viewHolder.tabTitle.setText(categoryTitle);
+        viewHolder.tabTitle.setTag(categoryTitle);
+        viewHolder.tabTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 categoryOnClickListener.onCategoryClicked(pos);
             }
         });
         if (lastSelectedIndex != null) {
-            viewHolder.category.setSelected(i == lastSelectedIndex);
+            viewHolder.tabTitle.setSelected(i == lastSelectedIndex);
         }
     }
 
     @Override
     public int getItemCount() {
-        return categoryList.size();
+        return tabList.size();
     }
 
     public void setLastSelectedIndex(int pos) {
@@ -64,21 +64,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView category;
+        public TextView tabTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            category = itemView.findViewById(R.id.category_title);
+            tabTitle = itemView.findViewById(R.id.tab_title);
         }
     }
 
     public void removeAll() {
-        categoryList.clear();
+        tabList.clear();
         notifyDataSetChanged();
     }
 
     public void addItem(String item) {
-        categoryList.add(item);
+        tabList.add(item);
         notifyDataSetChanged();
     }
 }
