@@ -1,6 +1,8 @@
 package edu.skku.sw3.success;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailView;
     private EditText mPasswordView;
+    private CheckBox idSaveCheck, autoLoginCheck;
 
 
     // 파이어베이스 인증 객체 생성
@@ -44,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     // 이메일 , 비밀번호 정보
     private String email = "";
     private String password = "";
+
+    private SharedPreferences appData;
 
 
     // 이메일 유효성 검사
@@ -84,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void signIn_with_EmailAndPW(final String input_email, String input_password)
+    private void signIn_with_EmailAndPW(final String input_email, final String input_password)
     {
         Toast.makeText(this, "로그인 시도 중 ..", Toast.LENGTH_SHORT).show();
 
@@ -100,6 +106,22 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "로그인 하였습니다.", Toast.LENGTH_SHORT).show();
                             mEmailView.setText("");
                             mPasswordView.setText("");
+
+                            SharedPreferences.Editor editor = appData.edit();
+                            if (autoLoginCheck.isChecked()) {
+                                editor.putInt("Case", 2);
+                                editor.putString("ID", input_email);
+                                editor.putString("PWD", input_password);
+                                editor.apply();
+                            } else if(idSaveCheck.isChecked()) {
+                                editor.putInt("Case", 1);
+                                editor.putString("ID", input_email);
+                                editor.apply();
+                            } else {
+                                editor.clear();
+                            }
+                            autoLoginCheck.setChecked(false);
+                            idSaveCheck.setChecked(false);
 
                             // Go to MainActivity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -130,9 +152,30 @@ public class LoginActivity extends AppCompatActivity {
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email_ET);
         mPasswordView = (EditText) findViewById(R.id.password_ET);
+        idSaveCheck = findViewById(R.id.login_save_id_check);
+        autoLoginCheck = findViewById(R.id.login_auto_login_check);
 
         // Firebase
         mAuth = FirebaseAuth.getInstance();
+
+        appData = getSharedPreferences("appData", MODE_PRIVATE);
+        switch(appData.getInt("Case", 0)) {
+            case 0:
+                break;
+            case 1:
+                email = appData.getString("ID", "");
+                mEmailView.setText(email);
+                idSaveCheck.setChecked(true);
+                break;
+            case 2:
+                email = appData.getString("ID", "");
+                password = appData.getString("PWD", "");
+                mEmailView.setText(email);
+                mPasswordView.setText(password);
+                autoLoginCheck.setChecked(true);
+                signIn_with_EmailAndPW(email, password);
+                break;
+        }
 
 
         // event handler
