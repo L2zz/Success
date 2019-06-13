@@ -3,18 +3,18 @@ package edu.skku.sw3.success;
 public class ListItem {
     private String Title;
     private String Date;
-    private String MainCategory;
-    private String SubCategory;
+    private Integer siteKey;
+    private Integer categoryKey;
     private String ItemURL;
     private String itemKey;
 
     public ListItem() {}
 
-    public ListItem(String Title, String Date, String MainCategory, String SubCategory, String ItemURL, String itemKey){
+    public ListItem(String Title, String Date, Integer MainCategory, Integer SubCategory, String ItemURL, String itemKey){
         this.Title = Title;
         this.Date = Date;
-        this.MainCategory = MainCategory;
-        this.SubCategory = SubCategory;
+        this.siteKey = MainCategory;
+        this.categoryKey = SubCategory;
         this.ItemURL = ItemURL;
         this.itemKey = itemKey;
     }
@@ -24,17 +24,12 @@ public class ListItem {
         Date = date;
         ItemURL = itemURL;
         this.itemKey = itemKey;
-        MainCategory = "";
-        SubCategory = "";
     }
 
     public String getTitle() {return Title;}
 
     public String getDate() {return Date;}
 
-    public String getMainCategory() {return MainCategory;}
-
-    public String getSubCategory() {return SubCategory;}
 
     public String getItemURL() {return  ItemURL;}
 
@@ -44,14 +39,6 @@ public class ListItem {
 
     public void setDate(String date) {
         Date = date;
-    }
-
-    public void setMainCategory(String mainCategory) {
-        MainCategory = mainCategory;
-    }
-
-    public void setSubCategory(String subCategory) {
-        SubCategory = subCategory;
     }
 
     public void setItemURL(String itemURL) {
@@ -64,5 +51,21 @@ public class ListItem {
 
     public void setItemKey(String itemKey) {
         this.itemKey = itemKey;
+    }
+
+    public Integer getSiteKey() {
+        return siteKey;
+    }
+
+    public void setSiteKey(Integer siteKey) {
+        this.siteKey = siteKey;
+    }
+
+    public Integer getCategoryKey() {
+        return categoryKey;
+    }
+
+    public void setCategoryKey(Integer categoryKey) {
+        this.categoryKey = categoryKey;
     }
 }

@@ -1,22 +1,23 @@
 package edu.skku.sw3.success;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,299 +26,264 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeSet;
 
-/*
-    TODO : (Stash) Naming 다시하기 (file 이름, id)
-    TODO : (Stash) Layout 다듬기
-    TODO : (Stash) View.OnClickListener onClickSubCategory 함수 정의
- */
+public class StashActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-public class StashActivity extends AppCompatActivity {
-    ImageButton back;
-    ImageButton edit;
-    Button del;
-    String ID = "user1"; // 통합시 LoginActivity에서 intent message로 ID를 전달받아주시면 됩니다.
+    private ImageButton backBtn, editBtn;
+    private RecyclerView siteListView, categoryListView;
+    private ListView stashContent;
+    private TabAdapter siteAdapter, categoryAdapter;
+    private LoadingDialog loadingDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    String title, date, subcategory, maincategory, itemURL;
-    String key;
-
-    int editcheck = 0;
-    int tabselect = 0;
-    int i;
-    LinearLayout container;
-
-    ListView mainstashlistview;
-    ListView sublistview;
-
-    ArrayList<Integer> BGarray;
-    ArrayList<ListItem> mainstashlist;
-    ArrayList<ListItem> sublist;
-
-    ListAdapter ladapter;
-    ListItem LItem;
-    ArrayList<String> categoryList;
-
-    public RecyclerView categoryListView, categorySubListView;
-    public TabAdapter tabAdapter, categorySubAdapter;
-    public DatabaseReference mPostReference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser curUser;
+    private DatabaseReference mDatabase;
+    private ArrayList<Integer> userSiteKey;
+    private ArrayList<Integer> userCategoryKey;
+    private ArrayList<String> userArticleKey;
+    private ArrayList<String> userSiteList;
+    private Site curSite;
+    private Category curCategory;
+    private ArrayList<ListItem> stashItemList;
+    private ListAdapter stashAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stash);
 
-        back = findViewById(R.id.back);
-        edit = findViewById(R.id.edit);
-        del = findViewById(R.id.delete);
-        container = (LinearLayout)findViewById(R.id.container);
-        categoryListView = findViewById(R.id.stash_category);
-        categorySubListView = findViewById(R.id.stash_category_sub);
-        mPostReference = FirebaseDatabase.getInstance().getReference();
+        backBtn = findViewById(R.id.back);
+        editBtn = findViewById(R.id.edit);
+        siteListView = findViewById(R.id.stash_category);
+        categoryListView = findViewById(R.id.stash_category_sub);
+        stashContent = findViewById(R.id.stash_content);
 
-        categoryList = new ArrayList<>();
-        getCategoryinDatabase();
-        //DB에서 카테고리리스트를 채우고, setCategory를 실행. firebase 관련 함수들은 모두 addListenerForSingleEvent -> 한번만 실행됨
+        swipeRefreshLayout = findViewById(R.id.stash_swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
-        back.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
+        mAuth = FirebaseAuth.getInstance();
+        curUser = mAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        initSite();
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
-
-        edit.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
-                if(editcheck == 0) {
-                    editcheck++;
-                    BGarray = new ArrayList<Integer>();
-                    container.removeAllViews();
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    inflater.inflate(R.layout.container_layout, container, true);
-                    mainstashlistview = findViewById(R.id.list_container);
-                    ladapter = new ListAdapter(StashActivity.this,mainstashlist);
-                    mainstashlistview.setAdapter(ladapter);
-                    mainstashlistview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    for(i = 0;i < mainstashlist.size() ; i++){
-                        BGarray.add(i,0);
-                    }
-                    mainstashlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if(BGarray.get(position) == 0){
-                                view.setBackgroundColor(getResources().getColor(R.color.colorLightGray));
-                                BGarray.set(position,1);
-                            }
-                            else if(BGarray.get(position) == 1){
-                                view.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-                                BGarray.set(position,0);
-                            }
-                        }
-                    });
-                    del.setVisibility(View.VISIBLE);
-                    del.setClickable(true);
-                }else{
-                    editcheck--;
-                    BGarray = new ArrayList<Integer>();
-                    del.setVisibility(View.INVISIBLE);
-                    del.setClickable(false);
-                    container.removeAllViews();
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    inflater.inflate(R.layout.container_layout, container, true);
-                    mainstashlistview = findViewById(R.id.list_container);
-                    ladapter = new ListAdapter(StashActivity.this,mainstashlist);
-                    mainstashlistview.setAdapter(ladapter);
-                }
-            }
-        });
-
-        del.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
-                if(editcheck == 1){
-                    BGarray = new ArrayList<Integer>();
-                    SparseBooleanArray sb = mainstashlistview.getCheckedItemPositions();
-                    if(sb.size() !=0){
-                        for(int i = mainstashlistview.getCount() - 1; i >= 0; i--){
-                            if(sb.get(i)){
-                                delFirebasedata(mainstashlist.get(i));
-                                mainstashlist.remove(i);
-                            }
-                        }
-                        mainstashlistview.clearChoices();
-                        ladapter = new ListAdapter(StashActivity.this,mainstashlist);
-                        mainstashlistview.setAdapter(ladapter);
-                        for(i=0;i<mainstashlist.size();i++){
-                            BGarray.add(i,0);
-                        }
-                    }
-                }
-            }
-        });
-
     }
 
-    // 사이트 항목을 설정합니다
-    public void setCategory() {
+    private void initSite() {
+        categoryListView.setVisibility(View.GONE);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        siteListView.setLayoutManager(layoutManager);
+
+        userSiteKey = new ArrayList<>();
+        userCategoryKey = new ArrayList<>();
+        userArticleKey = new ArrayList<>();
+        userSiteList = new ArrayList<>();
+
+        siteAdapter = new TabAdapter(this, userSiteList, new TabAdapter.CategoryOnClickListener() {
+            @Override
+            public void onCategoryClicked(int position) {
+                siteAdapter.setLastSelectedIndex(position);
+                siteAdapter.notifyDataSetChanged();
+                setSite(userSiteList.get(position));
+            }
+        });
+        siteListView.setAdapter(siteAdapter);
+
+        mDatabase.child("user/"+curUser.getUid()+"/stash/").addListenerForSingleValueEvent(userSiteListener);
+    }
+
+    private void setSite(String siteTitle) {
+        for (Site site: availSiteList) {
+            if (site.getTitle().equals(siteTitle)) {
+                curSite = site;
+                break;
+            }
+        }
+        initCategory();
+    }
+
+    private void initCategory() {
+        categoryListView.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         categoryListView.setLayoutManager(layoutManager);
 
-        tabAdapter = new TabAdapter(this, categoryList, new TabAdapter.CategoryOnClickListener() {
+        final ArrayList<String> categoryList = new ArrayList<>();
+        for (Integer catKey: userCategoryKey) {
+            for (Category category: curSite.getCategories()) {
+                if (catKey.equals(category.getId())) categoryList.add(category.getTitle());
+            }
+        }
+
+        categoryAdapter = new TabAdapter(this, categoryList, new TabAdapter.CategoryOnClickListener() {
             @Override
             public void onCategoryClicked(int position) {
-                tabAdapter.setLastSelectedIndex(position);
-                tabAdapter.notifyDataSetChanged();
-                if(editcheck == 1){
-                    editcheck--;
-                    del.setVisibility(View.INVISIBLE);
-                    del.setClickable(false);
+                categoryAdapter.setLastSelectedIndex(position);
+                categoryAdapter.notifyDataSetChanged();
+                for (Category category: curSite.getCategories()) {
+                    if (categoryList.get(position).equals(category.getTitle())) {
+                        setCategory(category);
+                    }
                 }
-                tabselect = position + 1;
-                getFirebaseDatabase();
-
-                initSubCategory(position);
             }
         });
-        categoryListView.setAdapter(tabAdapter);
+        categoryListView.setAdapter(categoryAdapter);
     }
 
-    // 사이트 내부 공지사항 종류를 설정합니다.
-    public void initSubCategory(int pos) {
-        categorySubListView.setVisibility(View.VISIBLE);
-        LinearLayoutManager layoutManager =
-                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        categorySubListView.setLayoutManager(layoutManager);
+    private void setCategory(Category targetCategory) {
+        curCategory = targetCategory;
 
-        ArrayList<String> categorySubList = new ArrayList<>();
-        categorySubList.add("공지사항");
-        categorySubList.add("취업");
-        categorySubAdapter = new TabAdapter(this, categorySubList, new TabAdapter.CategoryOnClickListener() {
+        stashItemList = new ArrayList<>();
+        stashAdapter = new ListAdapter(this, stashItemList);
+        stashContent.setAdapter(stashAdapter);
+
+        stashContent.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onCategoryClicked(int position) {
-                categorySubAdapter.setLastSelectedIndex(position);
-                categorySubAdapter.notifyDataSetChanged();
-                if(editcheck == 1){
-                    del.setVisibility(View.INVISIBLE);
-                    del.setClickable(false);
-                }
-                sublist = new ArrayList<ListItem>();
-                if(position == 0){
-                    for(int i = 0; i < mainstashlist.size(); i++){
-                        if(mainstashlist.get(i).getSubCategory().equals("공지사항")){
-                            sublist.add(mainstashlist.get(i));
-                        }
-                    }
-                }
-                else if(position == 1){
-                    for(int i = 0; i < mainstashlist.size(); i++){
-                        if(mainstashlist.get(i).getSubCategory().equals("취업")){
-                            sublist.add(mainstashlist.get(i));
-                        }
-                    }
-                }
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                sublistview = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,sublist);
-                sublistview.setAdapter(ladapter);
-            }
-        });
-        categorySubListView.setAdapter(categorySubAdapter);
-    }
-    public void getFirebaseDatabase() { //mainstashlist에 item을 검사해서 넣음
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mainstashlist = new ArrayList<ListItem>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    FirebasePost get = postSnapshot.getValue(FirebasePost.class);
-                    title = get.Title;
-                    date = get.Date;
-                    subcategory = get.SubCategory;
-                    maincategory = get.MainCategory;
-                    itemURL = get.ItemURL;
-                    if(maincategory.equals(categoryList.get(tabselect-1))){
-                        LItem = new ListItem(title, date, itemURL, new String());
-                        if(!mainstashlist.contains(LItem)) {
-                            mainstashlist.add(LItem);
-                        }
-                    }
-                }
-                container.removeAllViews();
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                inflater.inflate(R.layout.container_layout, container, true);
-                mainstashlistview = findViewById(R.id.list_container);
-                ladapter = new ListAdapter(StashActivity.this,mainstashlist);
-                mainstashlistview.setAdapter(ladapter);
-                mainstashlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if(editcheck == 0){
-                            Uri url= Uri.parse(mainstashlist.get(position).getItemURL());
-                            Intent intent= new Intent(Intent.ACTION_VIEW, url);
-                            if (intent.resolveActivity(getPackageManager()) != null){
-                                startActivity(intent);
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(StashActivity.this);
+                builder.setTitle("보관함에서 삭제");
+                builder.setCancelable(false);
+                builder.setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mDatabase.child("user/"+curUser.getUid()+"/stash/")
+                                        .addListenerForSingleValueEvent(rmListener);
+                                stashItemList.remove(position);
+                                stashAdapter.notifyDataSetChanged();
                             }
-                        }
-                    }
-                });
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
+                        });
+                builder.setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-        };
-        mPostReference.child("stash_items/"+ID).addListenerForSingleValueEvent(postListener);
+                            }
+                        });
+                builder.show();
+                return true;
+            }
+        });
+
+        stashContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(stashItemList.get(position).getItemURL()));
+                startActivity(intent);
+            }
+        });
+
+        Log.d("Test", "site/"+curSite.getId()+"/category/"+curCategory.getId()+"/article/");
+        mDatabase.child("site/"+curSite.getId()+"/category/"+curCategory.getId()+"/article/")
+                .addListenerForSingleValueEvent(articleListener);
     }
 
-    public void delFirebasedata(final ListItem LI){ // item의 Key값을 받음(item node 이름이 Key) 이후 그것을 이용해서 제거
-        ValueEventListener delListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    FirebasePost get = postSnapshot.getValue(FirebasePost.class);
-                    title = get.Title;
-                    date = get.Date;
-                    subcategory = get.SubCategory;
-                    if(LI.getTitle().equals(title) && LI.getDate().equals(date) && LI.getSubCategory().equals(subcategory)){
-                        key = get.Key;
-                        mPostReference = FirebaseDatabase.getInstance().getReference();
-                        Map<String, Object> childUpdates = new HashMap<>();
-                        Map<String, Object> postvalues = null;
-                        childUpdates.put("/stash_items/"+ID+"/"+key, postvalues);
-                        mPostReference.updateChildren(childUpdates);
+    private ValueEventListener userSiteListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            loadingDialog = new LoadingDialog(StashActivity.this);
+            if (!loadingDialog.isShowing()) loadingDialog.show();
+
+            for (DataSnapshot data: dataSnapshot.getChildren()) {
+                userSiteKey.add(new Integer(data.child("siteKey").getValue().toString()));
+                userCategoryKey.add(new Integer(data.child("categoryKey").getValue().toString()));
+                userArticleKey.add(data.child("articleKey").getValue().toString());
+            }
+
+            TreeSet<Integer> tmp1 = new TreeSet<>(userSiteKey);
+            userSiteKey = new ArrayList<>(tmp1);
+            TreeSet<Integer> tmp2 = new TreeSet<>(userCategoryKey);
+            userCategoryKey = new ArrayList<>(tmp2);
+
+            try {
+                for (int i = 0; i < userSiteKey.size(); i++) {
+                    siteAdapter.addItem(availSiteList.get(userSiteKey.get(i)).getTitle());
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (loadingDialog.isShowing()) loadingDialog.dismiss();
+                }
+            };
+            timer.schedule(timerTask, 500);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private ValueEventListener articleListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            loadingDialog = new LoadingDialog(StashActivity.this);
+            if (!loadingDialog.isShowing()) loadingDialog.show();
+
+            for (DataSnapshot data: dataSnapshot.getChildren()) {
+                for (String key: userArticleKey) {
+                    if (key.equals(data.getKey())) {
+                        stashAdapter.addItem(0, new ListItem(
+                                data.child("title").getValue(String.class),
+                                data.child("date").getValue(String.class),
+                                data.child("url").getValue(String.class),
+                                data.getKey()
+                        ));
                     }
                 }
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        mPostReference.child("stash_items/"+ID).addListenerForSingleValueEvent(delListener);
-    }
 
-    public void getCategoryinDatabase() { // DB에서 카테고리리스트를 채움
-        ValueEventListener CategoryListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    FirebasePost get = postSnapshot.getValue(FirebasePost.class);
-                    maincategory = get.MainCategory;
-                    for(i = 0; i <= categoryList.size(); i++){
-                        if(!categoryList.contains(maincategory)){
-                            categoryList.add(maincategory);
-                        }
-                    }
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (loadingDialog.isShowing()) loadingDialog.dismiss();
                 }
-                setCategory();
+            };
+            timer.schedule(timerTask, 500);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private ValueEventListener rmListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            String rmKey = null;
+            for (DataSnapshot data: dataSnapshot.getChildren()) {
+                if (data.child("siteKey").getValue().toString().equals(curSite.getId().toString())
+                && data.child("categoryKey").getValue().toString().equals(curCategory.getId().toString())) {
+                    rmKey = data.getKey();
+                    break;
+                }
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            if (rmKey != null) {
+                mDatabase.child("user/"+curUser.getUid()+"/stash/"+rmKey).removeValue();
             }
-        };
-        mPostReference.child("stash_items/"+ID).addListenerForSingleValueEvent(CategoryListener);
-    }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     private final ArrayList<Site> availSiteList = new ArrayList<>(
             Arrays.asList(
@@ -361,4 +327,10 @@ public class StashActivity extends AppCompatActivity {
                     ))
             )
     );
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
+        setCategory(curCategory);
+    }
 }
