@@ -86,8 +86,6 @@ public class StashActivity extends AppCompatActivity implements SwipeRefreshLayo
         siteListView.setLayoutManager(layoutManager);
 
         userSiteKey = new ArrayList<>();
-        userCategoryKey = new ArrayList<>();
-        userArticleKey = new ArrayList<>();
         userSiteList = new ArrayList<>();
 
         siteAdapter = new TabAdapter(this, userSiteList, new TabAdapter.CategoryOnClickListener() {
@@ -110,7 +108,10 @@ public class StashActivity extends AppCompatActivity implements SwipeRefreshLayo
                 break;
             }
         }
-        initCategory();
+
+        userCategoryKey = new ArrayList<>();
+        userArticleKey = new ArrayList<>();
+        mDatabase.child("user/"+curUser.getUid()+"/stash/").addListenerForSingleValueEvent(userCategoryListener);
     }
 
     private void initCategory() {
@@ -195,14 +196,10 @@ public class StashActivity extends AppCompatActivity implements SwipeRefreshLayo
 
             for (DataSnapshot data: dataSnapshot.getChildren()) {
                 userSiteKey.add(new Integer(data.child("siteKey").getValue().toString()));
-                userCategoryKey.add(new Integer(data.child("categoryKey").getValue().toString()));
-                userArticleKey.add(data.child("articleKey").getValue().toString());
             }
 
             TreeSet<Integer> tmp1 = new TreeSet<>(userSiteKey);
             userSiteKey = new ArrayList<>(tmp1);
-            TreeSet<Integer> tmp2 = new TreeSet<>(userCategoryKey);
-            userCategoryKey = new ArrayList<>(tmp2);
 
             try {
                 for (int i = 0; i < userSiteKey.size(); i++) {
@@ -211,6 +208,40 @@ public class StashActivity extends AppCompatActivity implements SwipeRefreshLayo
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
+
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (loadingDialog.isShowing()) loadingDialog.dismiss();
+                }
+            };
+            timer.schedule(timerTask, 500);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    private ValueEventListener userCategoryListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            loadingDialog = new LoadingDialog(StashActivity.this);
+            if (!loadingDialog.isShowing()) loadingDialog.show();
+
+            for (DataSnapshot data: dataSnapshot.getChildren()) {
+                if (data.child("siteKey").getValue().toString().equals(curSite.getId().toString())) {
+                    userCategoryKey.add(new Integer(data.child("categoryKey").getValue().toString()));
+                    userArticleKey.add(data.child("articleKey").getValue().toString());
+                }
+            }
+
+            TreeSet<Integer> tmp2 = new TreeSet<>(userCategoryKey);
+            userCategoryKey = new ArrayList<>(tmp2);
+
+            initCategory();
 
             Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
