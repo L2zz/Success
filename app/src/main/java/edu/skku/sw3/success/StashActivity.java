@@ -362,6 +362,10 @@ public class StashActivity extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
-        setCategory(curCategory);
+        try {
+            setCategory(curCategory);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }
