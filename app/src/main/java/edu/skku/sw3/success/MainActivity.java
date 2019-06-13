@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.aviran.cookiebar2.CookieBar;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
@@ -205,6 +207,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                                 mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/siteKey/").setValue(curSite.getId());
                                 mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/categoryKey/").setValue(curCategory.getId());
                                 mDatabase.child("user/"+curUser.getUid()+"/stash/"+key+"/articleKey/").setValue(mainItemList.get(position).getItemKey());
+                                CookieBar.build(MainActivity.this)
+                                        .setTitle("보관함")
+                                        .setMessage("보관함에 "+mainItemList.get(position).getTitle()+ " 을 추가하였습니다")
+                                        .setCookiePosition(CookieBar.TOP)
+                                        .setBackgroundColor(R.color.colorPrimaryDark)
+                                        .show();
                             }
                         });
                 builder.setNegativeButton("취소",
