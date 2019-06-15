@@ -69,12 +69,11 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // 개인정보 처리방침에 체크하면 -> Toast msg
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkBox.isChecked()){
-                    Toast.makeText(SignUpActivity.this, "개인정보 처리방침에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -155,9 +154,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                                     else {
 
-                                        // 회원가입 진행
-                                        //Toast.makeText(SignUpActivity.this, "회원가입 시도 중 ..", Toast.LENGTH_SHORT).show();
-
                                         SignUp(input_email_global, input_password_global);
 
                                         return;
@@ -180,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if(!checkBox.isChecked()) // 개인정보 체크박크 unchecked -> 진행하지 않음
                         Toast.makeText(SignUpActivity.this, "개인정보 처리방침에 동의해주세요.", Toast.LENGTH_LONG).show();
                     else{
-                        Toast.makeText(SignUpActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -204,8 +200,6 @@ public class SignUpActivity extends AppCompatActivity {
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                Toast.makeText(SignUpActivity.this, "회원가입 취소", Toast.LENGTH_SHORT).show();
                                 finish();
 
                             }

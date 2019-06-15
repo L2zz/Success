@@ -68,8 +68,6 @@ public class PasswordActivity extends AppCompatActivity {
                                     FirebaseAuth auth = FirebaseAuth.getInstance();
                                     String emailAddress = et_email.getText().toString();
 
-                                    Toast.makeText(PasswordActivity.this, "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
-
                                     auth.sendPasswordResetEmail(emailAddress)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
@@ -79,14 +77,9 @@ public class PasswordActivity extends AppCompatActivity {
                                                         Toast.makeText(PasswordActivity.this, "비밀번호 재설정 이메일을 발송하였습니다.", Toast.LENGTH_LONG).show();
                                                     } else {
 
-                                                        Toast.makeText(PasswordActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
-
                                                     }
                                                 }
                                             });
-
-
-                                    //  Toast.makeText(PasswordActivity.this, "이메일 발송 완료", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             })
@@ -103,7 +96,7 @@ public class PasswordActivity extends AppCompatActivity {
                 }
 
                 else{
-                    Toast.makeText(PasswordActivity.this, "다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -127,7 +120,6 @@ public class PasswordActivity extends AppCompatActivity {
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(PasswordActivity.this, "비밀번호 찾기 취소", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })

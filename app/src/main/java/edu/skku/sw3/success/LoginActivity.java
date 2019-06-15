@@ -71,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             // 비밀번호 공백
             return false;
         } else if (password.length() < 6) {
-            // 비밀번호 길이 너무 짧음
-            Toast.makeText(this, "비밀번호의 길이가 너무 짧습니다 !", Toast.LENGTH_LONG).show();
+
             return false;
         } else {
             return true;
@@ -92,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signIn_with_EmailAndPW(final String input_email, final String input_password)
     {
-        //Toast.makeText(this, "로그인 시도 중 ..", Toast.LENGTH_SHORT).show();
 
 
         mAuth.signInWithEmailAndPassword(input_email, input_password)
@@ -103,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //Toast.makeText(LoginActivity.this, "로그인 하였습니다.", Toast.LENGTH_SHORT).show();
                             mEmailView.setText("");
                             mPasswordView.setText("");
 
@@ -225,12 +222,9 @@ public class LoginActivity extends AppCompatActivity {
                 password = input_password;
 
                 if(!isValidEmail()){
-                    Toast.makeText(LoginActivity.this, "이메일 형식에 문제가 있습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(!isValidPasswd()){
-
-                    Toast.makeText(LoginActivity.this, "비밀번호의 길이가 너무 짧습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
