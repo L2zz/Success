@@ -229,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mainContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mainItemList.get(position).getItemURL()));
+                Intent intent = new Intent(MainActivity.this, WebActivity.class);
+                intent.putExtra("web_url", mainItemList.get(position).getItemURL());
                 startActivity(intent);
             }
         });
